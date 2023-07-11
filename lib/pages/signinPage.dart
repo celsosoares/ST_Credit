@@ -94,6 +94,27 @@ class _SignInPageState extends State<SignInPage> {
                       },
                     ),
                   ),
+                      SizedBox(height: 50),
+                      Container(
+                        height: 50.0,
+                        width: 430.0,
+                        child: ElevatedButton(
+                          child: Text('Teste de pagina'),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold)),
+                          onPressed: () {
+                            // TODO
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => FeedPage()));
+                          },
+                        ),
+                      ),
                   SizedBox(height: 50),
                   RichText(
                     text: TextSpan(
