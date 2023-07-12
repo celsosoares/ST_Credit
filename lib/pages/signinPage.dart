@@ -4,7 +4,6 @@ import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/signupPage.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -12,6 +11,42 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  Widget _buildTextEmail() {
+    return TextFormField(
+      autofocus: true,
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          labelText: "Email",
+          labelStyle:
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 20)),
+    );
+  }
+
+  bool _passVis = true;
+
+  Widget _buildTextPass() {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: "Senha",
+        hintStyle: TextStyle(
+          color: Color.fromRGBO(30, 30, 30, 100),
+          fontSize: 20,
+        ),
+        suffixIcon: IconButton(
+          icon: _passVis ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+          onPressed: () {
+            setState(() {
+              _passVis = !_passVis;
+            });
+          },
+        ),
+      ),
+      autofocus: true,
+      keyboardType: TextInputType.text,
+      obscureText: _passVis,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,103 +62,98 @@ class _SignInPageState extends State<SignInPage> {
         body: Padding(
           child: Center(
             child: SingleChildScrollView(
+                child: Column(children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Acesse sua conta.',
+                  style: GoogleFonts.dmSans(
+                    color: Colors.black,
+                    fontSize: 23.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 35),
+              Divider(),
+              Container(
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/logotipo.png",
-                            ),
-                            fit: BoxFit.fill)),
-                  ),
-                  SizedBox(height: 35),
-                  Text(
-                    'ST Credit',
-                    style: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                  children: <Widget>[
+                    _buildTextEmail(),
+                    SizedBox(height: 20.0),
+                    _buildTextPass(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      // TODO: Navegar para a página de recuperação de senha
+                    },
+                    child: Text(
+                      "Esqueceu a senha?",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 123, 128, 136),
+                        fontSize: 15.0,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 50),
-                  Divider(),
-                  TextFormField(
-                    autofocus: true,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                            color: Color.fromRGBO(30, 30, 30, 100),
-                            fontSize: 20)),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    autofocus: true,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        labelText: "Senha",
-                        labelStyle: TextStyle(
-                            color: Color.fromRGBO(30, 30, 30, 100),
-                            fontSize: 20)),
-                  ),
-                  SizedBox(height: 50),
-                  Container(
-                    height: 50.0,
-                    width: 430.0,
-                    child: ElevatedButton(
-                      child: Text('Entrar'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                          textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold)),
-                      onPressed: () {
-                        // TODO
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => FeedPage()));
-                      },
+                ],
+              ),
+              SizedBox(height: 50),
+              Container(
+                height: 50.0,
+                width: 430.0,
+                child: ElevatedButton(
+                  child: Text('Entrar'),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 57, 115, 240),
+                      textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold)),
+                  onPressed: () {
+                    // TODO
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => FeedPage()));
+                  },
+                ),
+              ),
+              SizedBox(height: 50),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 5, 5, 5),
+                      ),
+                      text: "Não tem uma conta? ",
                     ),
-                  ),
-                  SizedBox(height: 50),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 5, 5, 5),
-                          ),
-                          text: "Não tem uma conta? ",
-                        ),
-                        TextSpan(
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                          text: "Registre-se!",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpPage()));
-                            },
-                        ),
-                      ],
+                    TextSpan(
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      text: "Registre-se!",
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
+                        },
                     ),
-                  )
-                ])),
+                  ],
+                ),
+              ),
+            ])),
           ),
-          padding: EdgeInsets.all(50),
+          padding: EdgeInsets.all(45),
         ));
   }
 }

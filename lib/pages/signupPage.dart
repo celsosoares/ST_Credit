@@ -14,6 +14,120 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _confirmarsenha =
       TextEditingController(); // PasswordValidation
 
+  Widget _buildTextName() {
+    return TextFormField(
+      autofocus: true,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+          labelText: "Nome Completo",
+          labelStyle:
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+      validator: (value) {
+        if (value != null && value.isEmpty) {
+          return "O nome é obrigatório";
+        } else if (value != null && value.length > 18) {
+          return "O nome pode ter no máximo 18 caracteres";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildTextEmail() {
+    return TextFormField(
+      autofocus: true,
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          labelText: "Email",
+          labelStyle:
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+      validator: (value) {
+        if (value != null && value.isEmpty) {
+          return "O email é obrigatório";
+        } else if (value != null &&
+            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                .hasMatch(value)) {
+          return "Insira um email valido";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildProfileOption() {
+    return Container(
+      width: double.infinity,
+      child: DropdownButton<String>(
+        autofocus: true,
+        value: dropdownValue,
+        items: <String>[
+          'Tipo de Perfil',
+          'Analista',
+          'Cliente',
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: TextStyle(
+                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+            ),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownValue = newValue!;
+          });
+        },
+      ),
+    );
+  }
+
+  bool _passVis = true;
+
+  Widget _buildPassword() {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: "Senha",
+        hintStyle: TextStyle(
+          color: Color.fromRGBO(30, 30, 30, 100),
+        ),
+        suffixIcon: IconButton(
+          icon: _passVis ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+          onPressed: () {
+            setState(() {
+              _passVis = !_passVis;
+            });
+          },
+        ),
+      ),
+      autofocus: true,
+      keyboardType: TextInputType.text,
+      obscureText: _passVis,
+    );
+  }
+
+  Widget _buildRewritePassword() {
+    return TextFormField(
+      controller: _confirmarsenha,
+      autofocus: true,
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      decoration: InputDecoration(
+          labelText: "Confirmar Senha",
+          labelStyle:
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+      validator: (value) {
+        if (value != null && value.isEmpty) {
+          return "Reinsira a senha";
+        } else if (_senha.text != _confirmarsenha.text) {
+          return "A confirmação de senha não confere";
+        }
+        return null;
+      },
+    );
+  }
+
   String dropdownValue = 'Tipo de Perfil';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -46,119 +160,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Divider(),
-                      TextFormField(
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            labelText: "Nome Completo",
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(30, 30, 30, 100),
-                                fontSize: 15)),
-                        validator: (value) {
-                          if (value != null && value.isEmpty) {
-                            return "O nome é obrigatório";
-                          } else if (value != null && value.length > 18) {
-                            return "O nome pode ter no máximo 18 caracteres";
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextName(),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        autofocus: true,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            labelText: "Email",
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(30, 30, 30, 100),
-                                fontSize: 15)),
-                        validator: (value) {
-                          if (value != null && value.isEmpty) {
-                            return "O email é obrigatório";
-                          } else if (value != null &&
-                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)) {
-                            return "Insira um email valido";
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextEmail(),
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: DropdownButton<String>(
-                          autofocus: true,
-                          value: dropdownValue,
-                          items: <String>[
-                            'Tipo de Perfil',
-                            'Poupador',
-                            'Conservador',
-                            'Gastador'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(30, 30, 30, 100),
-                                    fontSize: 15),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
+                      _buildProfileOption(),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        controller: _senha,
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            labelText: "Senha",
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(30, 30, 30, 100),
-                                fontSize: 15)),
-                        validator: (value) {
-                          if (value != null && value.isEmpty) {
-                            return "A senha é obrigatória";
-                          } else if (value != null && value.length < 8) {
-                            return "A senha precisa ter no mínimo 9 caracteres";
-                          }
-
-                          return null;
-                        },
-                      ),
+                      _buildPassword(),
                       SizedBox(height: 10),
-                      TextFormField(
-                        controller: _confirmarsenha,
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            labelText: "Confirmar Senha",
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(30, 30, 30, 100),
-                                fontSize: 15)),
-                        validator: (value) {
-                          if (value != null && value.isEmpty) {
-                            return "Reinsira a senha";
-                          } else if (_senha.text != _confirmarsenha.text) {
-                            return "A confirmação de senha não confere";
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildRewritePassword(),
                       SizedBox(height: 30),
                       Container(
                         height: 50.0,
@@ -166,7 +182,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: ElevatedButton(
                           child: Text('Cadastrar'),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                              backgroundColor:
+                                  Color.fromARGB(255, 57, 115, 240),
                               textStyle: const TextStyle(
                                   color: Colors.white,
                                   fontStyle: FontStyle.normal,
