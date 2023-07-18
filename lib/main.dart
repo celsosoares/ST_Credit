@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/signinPage.dart';
+import 'package:st_credit/pages/initialPage.dart';
 
-void main()
-{
+void main() {
   runApp(MainApp());
 }
 
-class MainApp extends StatelessWidget
-{
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,10 +14,7 @@ class MainApp extends StatelessWidget
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 11, 43, 185),
       ),
-      // TODO
-      // home: PreviewPage(),
-      home: SignInPage(),
+      home: InitialPage(),
     );
   }
-  
 }
