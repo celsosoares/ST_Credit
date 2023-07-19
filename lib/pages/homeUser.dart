@@ -17,31 +17,42 @@ class _HomeUserState extends State<HomeUser>{
       body: Column(
         children: [
           Container(
-            height: 266,
-            color: Color(0xFF2A64D9),
-            child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [const Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          'Bem vinda,',
-                          style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF)),
-                        ))
-                      ,
-                      const Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          "Carla M.",
-                          style: TextStyle(fontSize: 28, color: Color(0xFFFFFFFF)),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              )
-          ),
+                height: 240,
+                color: const Color(0xFF2A64D9),
+                child: Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [ const Column(
+                      mainAxisAlignment:  MainAxisAlignment.center,
+                      crossAxisAlignment:  CrossAxisAlignment.start,
+                      children: [Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            'Bem vinda,',
+                            style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF)),
+                          ))
+                        ,
+                         Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            "Carla M.",
+                            style: TextStyle(fontSize: 28, color: Color(0xFFFFFFFF)),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      borderRadius: BorderRadius.circular(10), // Define o raio dos cantos
+                    ),
+                      child: const Center(child:
+                       Text("CM", style: TextStyle(color: Color(0xFF2A64D9))))
+                    )
+                  ],
+                ),
+            )
         ],
       ),
     );
