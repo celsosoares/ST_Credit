@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:st_credit/pages/HomeUser.dart';
 import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -118,10 +119,10 @@ class _SignInPageState extends State<SignInPage> {
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
                     // TODO
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => FeedPage()));
+                     Navigator.push(
+                        context,
+                         MaterialPageRoute(
+                             builder: (context) => HomeUser()));
                   },
                 ),
               ),
