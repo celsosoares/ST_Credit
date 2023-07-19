@@ -11,6 +11,12 @@ class HomeUser extends StatefulWidget {
 }
 
 class _HomeUserState extends State<HomeUser>{
+  int _currentIndex = 0;
+  final List<Widget> _pages =[
+    HomeUser(),
+    HomeUser()
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +59,22 @@ class _HomeUserState extends State<HomeUser>{
                   ],
                 ),
             )
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index){
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home),
+          label: 'Página Inicial'),
+           BottomNavigationBarItem(icon: Icon(Icons.settings),
+           label: 'Configurações')
         ],
       ),
     );
