@@ -20,46 +20,70 @@ class _HomeUserState extends State<HomeUser>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-                height: 240,
-                color: const Color(0xFF2A64D9),
-                child: Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [ const Column(
-                      mainAxisAlignment:  MainAxisAlignment.center,
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: [Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            'Bem vinda,',
-                            style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF)),
-                          ))
-                        ,
-                         Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            "Carla M.",
-                            style: TextStyle(fontSize: 28, color: Color(0xFFFFFFFF)),
-                          ),
-                        )
-                      ],
+      body:Container(
+        color: const Color(0xFF2A64D9),
+        child: Column(
+          children: [
+            Container(
+              height: 240,
+              color: const Color(0xFF2A64D9),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          'Bem vinda,',
+                          style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF)),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          "Carla M.",
+                          style: TextStyle(fontSize: 28, color: Color(0xFFFFFFFF)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
+                    child: const Center(
+                      child: Text(
+                        "CM",
+                        style: TextStyle(color: Color(0xFF2A64D9)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child:
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
                         color: Colors.white,
-                      borderRadius: BorderRadius.circular(10), // Define o raio dos cantos
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),)
                     ),
-                      child: const Center(child:
-                       Text("CM", style: TextStyle(color: Color(0xFF2A64D9))))
-                    )
-                  ],
-                ),
-            )
-        ],
+                    child: const Text("Container vermelho"),
+                  ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -70,14 +94,13 @@ class _HomeUserState extends State<HomeUser>{
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
-         items: const [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home),
-          label: 'Página Inicial'),
-           BottomNavigationBarItem(icon: Icon(Icons.settings),
-           label: 'Configurações')
+              label: 'Página Inicial'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings),
+              label: 'Configurações')
         ],
       ),
     );
   }
-
 }
