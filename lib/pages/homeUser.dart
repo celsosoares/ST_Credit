@@ -79,7 +79,131 @@ class _HomeUserState extends State<HomeUser>{
                           topLeft: Radius.circular(20.0),
                           topRight: Radius.circular(20.0),)
                     ),
-                    child: const Text("Container vermelho"),
+                    padding: EdgeInsets.all(30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Serviços",
+                          style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700)
+                        ),
+                        Container(
+                          height: 80,
+                          width: 350,
+                            decoration:  BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.10
+                                )
+                            ),
+                          child: ElevatedButton(
+                            onPressed: (){
+
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFF7F8F9)
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Icon(Icons.add,color: Colors.red,),
+                                Text("Solicitar análise de crédito"
+                                  , style: TextStyle(
+                                      color: Colors.black
+                                  ),)
+                              ],
+                            ),
+                          )
+                        ),
+                        Container(
+                            height: 80,
+                            width: 350,
+                            decoration:  BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                  width: 0.10
+                              )
+                            ),
+                            child: ElevatedButton(
+                              onPressed: (){
+
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF7F8F9)
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.add,color: Colors.red,),
+                                  Text("Status da sua análise"
+                                    , style: TextStyle(
+                                        color: Colors.black
+                                    ),)
+                                ],
+                              ),
+                            )
+                        ),
+                        Container(
+                            height: 80,
+                            width: 350,
+                            decoration:  BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.10
+                                )
+                            ),
+                            child: ElevatedButton(
+                              onPressed: (){
+
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF7F8F9)
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.access_time_filled,color: Colors.red,),
+                                  Text("Histórico de análises"
+                                    , style: TextStyle(
+                                        color: Colors.black
+                                    ),)
+                                ],
+                              ),
+                            )
+                        ),
+                        Container(
+                            height: 80,
+                            width: 350,
+                            decoration:  BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.10
+                                )
+                            ),
+                            child: ElevatedButton(
+                              onPressed: (){
+
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF7F8F9)
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.add,color: Colors.red,),
+                                  Text("Perguntas frequentes"
+                                    , style: TextStyle(
+                                        color: Colors.black
+                                    ),)
+                                ],
+                              ),
+                            )
+                        )
+                      ],
+                    ),
                   ),
             ),
           ],
