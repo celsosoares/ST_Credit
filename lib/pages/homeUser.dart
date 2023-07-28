@@ -38,14 +38,18 @@ class _HomeUserState extends State<HomeUser>{
                         padding: EdgeInsets.all(5),
                         child: Text(
                           'Bem vinda,',
-                          style: TextStyle(fontSize: 16, color: Color(0xFFFFFFFF)),
+                          style: TextStyle(fontSize: 20,
+                              color: Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
                           "Carla M.",
-                          style: TextStyle(fontSize: 28, color: Color(0xFFFFFFFF)),
+                          style: TextStyle(fontSize: 34,
+                              color: Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.w800),
                         ),
                       ),
                     ],
@@ -60,7 +64,8 @@ class _HomeUserState extends State<HomeUser>{
                     child: const Center(
                       child: Text(
                         "CM",
-                        style: TextStyle(color: Color(0xFF2A64D9)),
+                        style: TextStyle(color: Color(0xFF2A64D9),
+                        fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -106,11 +111,17 @@ class _HomeUserState extends State<HomeUser>{
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFF7F8F9)
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Icon(Icons.add,color: Colors.red,),
-                                Text("Solicitar análise de crédito"
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(image: AssetImage("assets/images/add.png"))
+                                  ),
+                                ),
+                                const Text("Solicitar análise de crédito"
                                   , style: TextStyle(
                                       color: Colors.black
                                   ),)
@@ -134,11 +145,17 @@ class _HomeUserState extends State<HomeUser>{
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFFF7F8F9)
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(Icons.add,color: Colors.red,),
-                                  Text("Status da sua análise"
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(image: AssetImage("assets/images/status.png"))
+                                    ),
+                                  ),
+                                  const Text("Status da sua análise"
                                     , style: TextStyle(
                                         color: Colors.black
                                     ),)
@@ -162,11 +179,17 @@ class _HomeUserState extends State<HomeUser>{
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFFF7F8F9)
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(Icons.access_time_filled,color: Colors.red,),
-                                  Text("Histórico de análises"
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(image: AssetImage("assets/images/history.png"))
+                                    ),
+                                  ),
+                                  const Text("Histórico de análises"
                                     , style: TextStyle(
                                         color: Colors.black
                                     ),)
@@ -190,11 +213,17 @@ class _HomeUserState extends State<HomeUser>{
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFFF7F8F9)
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(Icons.add,color: Colors.red,),
-                                  Text("Perguntas frequentes"
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(image: AssetImage("assets/images/ask.png"))
+                                    ),
+                                  ),
+                                  const Text("Perguntas frequentes"
                                     , style: TextStyle(
                                         color: Colors.black
                                     ),)
