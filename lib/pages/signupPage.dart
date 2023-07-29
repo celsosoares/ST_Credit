@@ -1,8 +1,14 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:st_credit/pages/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:uuid/uuid.dart';
+
+import '../firebase/firebase_auth.dart';
+import '../firebase/firebase_service.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -10,12 +16,25 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final FirebaseService firebaseService = FirebaseService();
+  final TextEditingController _nomeCompletoController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _profileController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _confirmarSenhaController =
+      TextEditingController();
+  String dropdownValue = 'Tipo de Perfil';
+  AuthService authService = AuthService();
+
   TextEditingController _senha = TextEditingController();
   TextEditingController _confirmarsenha =
       TextEditingController(); // PasswordValidation
 
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
   Widget _buildTextName() {
     return TextFormField(
+      controller: _nomeCompletoController,
       autofocus: true,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
@@ -35,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildTextEmail() {
     return TextFormField(
+      controller: _emailController,
       autofocus: true,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -87,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildPassword() {
     return TextFormField(
+      controller: _senhaController,
       decoration: InputDecoration(
         hintText: "Senha",
         hintStyle: TextStyle(
@@ -109,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildRewritePassword() {
     return TextFormField(
-      controller: _confirmarsenha,
+      controller: _confirmarSenhaController,
       autofocus: true,
       keyboardType: TextInputType.text,
       obscureText: true,
@@ -128,7 +149,22 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  String dropdownValue = 'Tipo de Perfil';
+  void sendData(nome, email, perfil) {
+    String id = Uuid().v4();
+    try {
+      db.collection("users").doc(id).set({
+        "name": nome,
+        "email": email,
+        "profile": perfil,
+      });
+      print('Dados do usuário registrados com sucesso!');
+      print('Nome: $nome');
+      print('Email: $email');
+      print('Perfil: $perfil');
+    } catch (e) {
+      print('Erro ao registrar dados do usuário: $e');
+    }
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -183,18 +219,86 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: ElevatedButton(
                           child: Text('Cadastrar'),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Color.fromARGB(255, 57, 115, 240),
-                              textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.bold)),
-                          onPressed: () {
-                            // TODO
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => "Ex: Next Page"));
+                            backgroundColor: Color.fromARGB(255, 57, 115, 240),
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () async {
+                            String nomeCompleto =
+                                _nomeCompletoController.text.trim();
+                            String email = _emailController.text.trim();
+                            String senha = _senhaController.text.trim();
+                            String confirmarSenha =
+                                _confirmarSenhaController.text.trim();
+                            String perfil = dropdownValue;
+
+                            Map<String, dynamic> userData = {
+                              'nome': nomeCompleto,
+                              'email': email,
+                              'perfil': perfil,
+                            };
+
+                            // Chame a função addUser() para registrar os dados do novo usuário no Firebase.
+                            await firebaseService.addUser(userData);
+
+                            print("************");
+                            print(email);
+                            print(senha);
+
+                            sendData(nomeCompleto, email, perfil);
+                            // TODO: Realizar validações adicionais, se necessário.
+                            // Por exemplo, verifique se os campos estão preenchidos corretamente
+                            // e se a senha e a confirmação de senha são iguais.
+
+                            // Chamar o método de registro da AuthService.
+                            User? user = await authService
+                                .registerWithEmailAndPassword(email, senha);
+                            print("---------------");
+                            print(user);
+                            if (user != null) {
+                              // O registro foi bem-sucedido. Você pode fazer algo aqui, como exibir uma mensagem de sucesso.
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Registro bem-sucedido'),
+                                    content: Text(
+                                        'Seu registro foi concluído com sucesso!'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              // O registro falhou, exiba uma mensagem de erro.
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Erro de Registro'),
+                                    content: Text(
+                                        'O registro falhou. Tente novamente mais tarde.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           },
                         ),
                       ),

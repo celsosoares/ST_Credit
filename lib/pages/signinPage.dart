@@ -1,10 +1,13 @@
 import 'dart:io';
 
-import 'package:st_credit/pages/HomeUser.dart';
+import 'package:st_credit/pages/homeUser.dart';
 import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'homeUser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:st_credit/firebase/firebase_auth.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -12,21 +15,29 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool _passVis = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  AuthService authService = AuthService();
+
   Widget _buildTextEmail() {
     return TextFormField(
+      controller: _emailController, // Vincule o controlador ao campo de e-mail.
       autofocus: true,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-          labelText: "Email",
-          labelStyle:
-              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 20)),
+        labelText: "Email",
+        labelStyle:
+            TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 20),
+      ),
     );
   }
 
-  bool _passVis = true;
-
   Widget _buildTextPass() {
     return TextFormField(
+      controller:
+          _passwordController, // Vincule o controlador ao campo de senha.
       decoration: InputDecoration(
         hintText: "Senha",
         hintStyle: TextStyle(
@@ -112,17 +123,49 @@ class _SignInPageState extends State<SignInPage> {
                 child: ElevatedButton(
                   child: Text('Entrar'),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 57, 115, 240),
-                      textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold)),
-                  onPressed: () {
-                    // TODO
-                     Navigator.push(
+                    backgroundColor: Color.fromARGB(255, 57, 115, 240),
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () async {
+                    String email = _emailController.text.trim();
+                    String password = _passwordController.text.trim();
+
+                    // Altere o tipo da variável loginSuccessful para User?.
+                    User? user = await authService.signInWithEmailAndPassword(
+                        email, password);
+
+                    if (user != null) {
+                      // O login foi bem-sucedido e o objeto User está disponível.
+                      // Faça o que precisa ser feito após o login bem-sucedido, como navegar para a tela HomeUser.
+                      Navigator.push(
                         context,
-                         MaterialPageRoute(
-                             builder: (context) => HomeUser()));
+                        MaterialPageRoute(builder: (context) => HomeUser()),
+                      );
+                    } else {
+                      // O login falhou, exiba uma mensagem de erro.
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Erro de Login'),
+                            content:
+                                Text('Credenciais inválidas. Tente novamente.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),

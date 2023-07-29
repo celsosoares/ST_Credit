@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>646035201718-14d98ejb7nofn3pnhaet99efhb8f5gc3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.646035201718-14d98ejb7nofn3pnhaet99efhb8f5gc3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAGxb5i53qpygu-U1j2G2l_pnFg3thU6CQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>646035201718</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.stCredit</string>
+	<key>PROJECT_ID</key>
+	<string>st-credit-test</string>
+	<key>STORAGE_BUCKET</key>
+	<string>st-credit-test.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:646035201718:ios:cb8d538972daaec5b19017</string>
+</dict>
+</plist>
