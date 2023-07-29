@@ -5,7 +5,6 @@ import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'homeUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 
@@ -134,19 +133,18 @@ class _SignInPageState extends State<SignInPage> {
                     String email = _emailController.text.trim();
                     String password = _passwordController.text.trim();
 
-                    // Altere o tipo da variável loginSuccessful para User?.
                     User? user = await authService.signInWithEmailAndPassword(
                         email, password);
 
                     if (user != null) {
-                      // O login foi bem-sucedido e o objeto User está disponível.
-                      // Faça o que precisa ser feito após o login bem-sucedido, como navegar para a tela HomeUser.
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeUser()),
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              HomeUser(email: email, nome: "Nome do Usuário"),
+                        ),
                       );
                     } else {
-                      // O login falhou, exiba uma mensagem de erro.
                       showDialog(
                         context: context,
                         builder: (context) {

@@ -17,20 +17,21 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final FirebaseService firebaseService = FirebaseService();
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
   final TextEditingController _nomeCompletoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _profileController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
   final TextEditingController _confirmarSenhaController =
       TextEditingController();
+
   String dropdownValue = 'Tipo de Perfil';
+  bool _passVis = true;
   AuthService authService = AuthService();
 
   TextEditingController _senha = TextEditingController();
-  TextEditingController _confirmarsenha =
-      TextEditingController(); // PasswordValidation
-
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  TextEditingController _confirmarsenha = TextEditingController();
 
   Widget _buildTextName() {
     return TextFormField(
@@ -103,8 +104,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  bool _passVis = true;
-
   Widget _buildPassword() {
     return TextFormField(
       controller: _senhaController,
@@ -149,21 +148,16 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void sendData(nome, email, perfil) {
+  void sendData(nome, email, perfil) async {
     String id = Uuid().v4();
-    try {
-      db.collection("users").doc(id).set({
-        "name": nome,
-        "email": email,
-        "profile": perfil,
-      });
-      print('Dados do usuário registrados com sucesso!');
-      print('Nome: $nome');
-      print('Email: $email');
-      print('Perfil: $perfil');
-    } catch (e) {
-      print('Erro ao registrar dados do usuário: $e');
-    }
+    Map<String, dynamic> userData = {
+      'id': id,
+      'nome': nome,
+      'email': email,
+      'perfil': perfil,
+    };
+
+    await firebaseService.addUser(userData);
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -235,31 +229,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 _confirmarSenhaController.text.trim();
                             String perfil = dropdownValue;
 
-                            Map<String, dynamic> userData = {
-                              'nome': nomeCompleto,
-                              'email': email,
-                              'perfil': perfil,
-                            };
-
-                            // Chame a função addUser() para registrar os dados do novo usuário no Firebase.
-                            await firebaseService.addUser(userData);
-
-                            print("************");
-                            print(email);
-                            print(senha);
-
                             sendData(nomeCompleto, email, perfil);
-                            // TODO: Realizar validações adicionais, se necessário.
-                            // Por exemplo, verifique se os campos estão preenchidos corretamente
-                            // e se a senha e a confirmação de senha são iguais.
 
-                            // Chamar o método de registro da AuthService.
                             User? user = await authService
                                 .registerWithEmailAndPassword(email, senha);
-                            print("---------------");
-                            print(user);
+
                             if (user != null) {
-                              // O registro foi bem-sucedido. Você pode fazer algo aqui, como exibir uma mensagem de sucesso.
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -279,7 +254,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                               );
                             } else {
-                              // O registro falhou, exiba uma mensagem de erro.
                               showDialog(
                                 context: context,
                                 builder: (context) {
