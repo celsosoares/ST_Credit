@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:st_credit/pages/PrimeiroPasso.dart';
 
 
 class HomeUser extends StatefulWidget {
@@ -106,6 +107,8 @@ class _HomeUserState extends State<HomeUser>{
                             ),
                           child: ElevatedButton(
                             onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder:(context) => ClientAnalysisOnePage()));
 
                             },
                             style: ElevatedButton.styleFrom(
