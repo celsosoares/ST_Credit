@@ -6,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:st_credit/pages/PrimeiroPasso.dart';
 
+import '../firebase/firebase_service.dart';
+
 class HomeUser extends StatefulWidget {
   @override
   _HomeUserState createState() => _HomeUserState();
@@ -14,6 +16,39 @@ class HomeUser extends StatefulWidget {
 class _HomeUserState extends State<HomeUser> {
   int _currentIndex = 0;
   final List<Widget> _pages = [HomeUser(), HomeUser()];
+
+  final FirebaseService firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _performRequests();
+    print(_performRequests());
+  }
+
+  Future<void> _performRequests() async {
+    try {
+      // Exemplo de uso da função getUsers()
+      List<Map<String, dynamic>> users = await firebaseService.getUsers();
+
+      // Exibe os usuários no console
+      users.forEach((user) {
+        print('Nome: ${user['nome']}');
+        print('Email: ${user['email']}');
+        // print(': ${user['idade']}');
+      });
+
+      // // Exemplo de uso da função addUser()
+      // Map<String, dynamic> newUser = {
+      //   'nome': 'Novo Usuário',
+      //   'email': 'novo.usuario@example.com',
+      //   'idade': 25,
+      // };
+      // await firebaseService.addUser(newUser);
+    } catch (e) {
+      print('Erro durante as requisições: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +63,7 @@ class _HomeUserState extends State<HomeUser> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
