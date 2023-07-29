@@ -52,7 +52,9 @@ class _StatusState extends State<UserHistory> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeUser()),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeUser(email: "email", nome: "Nome do Usuário")),
             );
             // Voltar à tela anterior
           },
@@ -123,7 +125,9 @@ class _StatusState extends State<UserHistory> {
             if (_currentIndex == 0) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeUser()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        HomeUser(email: "email", nome: "Nome do Usuário")),
               );
             }
           });

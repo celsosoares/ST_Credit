@@ -71,8 +71,11 @@ class _AnalysisDone extends State<AnalysisDone> {
                           fontSize: 12.0,
                         )),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeUser()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeUser(
+                                  email: "email", nome: "Nome do Usuário")));
                     },
                   ),
                 ),

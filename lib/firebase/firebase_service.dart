@@ -4,7 +4,6 @@ class FirebaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  // Função para obter todos os usuários da coleção "users"
   Future<List<Map<String, dynamic>>> getUsers() async {
     List<Map<String, dynamic>> usersList = [];
 
@@ -12,8 +11,7 @@ class FirebaseService {
       QuerySnapshot querySnapshot = await usersCollection.get();
 
       querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic>? userData = doc.data() as Map<String,
-            dynamic>?; // Conversão explícita para Map<String, dynamic>
+        Map<String, dynamic>? userData = doc.data() as Map<String, dynamic>?;
         if (userData != null) {
           usersList.add(userData);
         }
@@ -22,11 +20,27 @@ class FirebaseService {
       return usersList;
     } catch (e) {
       print('Erro ao obter usuários: $e');
-      return usersList; // Retorna uma lista vazia em caso de erro.
+      return usersList;
     }
   }
 
-  // Função para adicionar um novo usuário na coleção "users"
+  Future<Map<String, dynamic>?> getUserByEmail(String email) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await usersCollection.where('email', isEqualTo: email).get();
+      if (querySnapshot.size > 0) {
+        DocumentSnapshot docSnapshot = querySnapshot.docs[0];
+        return docSnapshot.data() as Map<String, dynamic>;
+      } else {
+        print('Usuário não encontrado.');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao obter usuário: $e');
+      return null;
+    }
+  }
+
   Future<void> addUser(Map<String, dynamic> userData) async {
     try {
       await usersCollection.add(userData);

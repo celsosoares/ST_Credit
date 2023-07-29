@@ -9,13 +9,21 @@ import 'package:st_credit/pages/PrimeiroPasso.dart';
 import '../firebase/firebase_service.dart';
 
 class HomeUser extends StatefulWidget {
+  final String email;
+  final String nome;
+
+  HomeUser({required this.email, required this.nome});
+
   @override
   _HomeUserState createState() => _HomeUserState();
 }
 
 class _HomeUserState extends State<HomeUser> {
+  String nomeUsuario = '';
+  String emailUsuario = '';
+  String perfilUsuario = '';
+  String idUsuario = '';
   int _currentIndex = 0;
-  final List<Widget> _pages = [HomeUser(), HomeUser()];
 
   final FirebaseService firebaseService = FirebaseService();
 
@@ -23,30 +31,30 @@ class _HomeUserState extends State<HomeUser> {
   void initState() {
     super.initState();
     _performRequests();
-    print(_performRequests());
   }
 
   Future<void> _performRequests() async {
     try {
-      // Exemplo de uso da função getUsers()
-      List<Map<String, dynamic>> users = await firebaseService.getUsers();
+      String email = widget.email;
 
-      // Exibe os usuários no console
-      users.forEach((user) {
-        print('Nome: ${user['nome']}');
-        print('Email: ${user['email']}');
-        // print(': ${user['idade']}');
-      });
+      Map<String, dynamic>? user = await firebaseService.getUserByEmail(email);
 
-      // // Exemplo de uso da função addUser()
-      // Map<String, dynamic> newUser = {
-      //   'nome': 'Novo Usuário',
-      //   'email': 'novo.usuario@example.com',
-      //   'idade': 25,
-      // };
-      // await firebaseService.addUser(newUser);
+      if (user != null) {
+        setState(() {
+          nomeUsuario = user['nome'];
+          emailUsuario = user['email'];
+          perfilUsuario = user['perfil'];
+          idUsuario = user['id'];
+        });
+        print(nomeUsuario);
+        print(emailUsuario);
+        print(perfilUsuario);
+        print(idUsuario);
+      } else {
+        print('Usuário não encontrado.');
+      }
     } catch (e) {
-      print('Erro durante as requisições: $e');
+      print('Erro ao obter usuário: $e');
     }
   }
 
@@ -70,7 +78,7 @@ class _HomeUserState extends State<HomeUser> {
                       Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          'Bem vinda,',
+                          'Bem vindo,',
                           style: TextStyle(
                               fontSize: 20,
                               color: Color(0xFFFFFFFF),
@@ -80,7 +88,7 @@ class _HomeUserState extends State<HomeUser> {
                       Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          "Carla M.",
+                          nomeUsuario,
                           style: TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
