@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:st_credit/pages/signinPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:uuid/uuid.dart';
 
@@ -30,15 +28,15 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _passVis = true;
   AuthService authService = AuthService();
 
-  TextEditingController _senha = TextEditingController();
-  TextEditingController _confirmarsenha = TextEditingController();
+  final TextEditingController _senha = TextEditingController();
+  final TextEditingController _confirmarsenha = TextEditingController();
 
   Widget _buildTextName() {
     return TextFormField(
       controller: _nomeCompletoController,
       autofocus: true,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Nome Completo",
           labelStyle:
               TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -58,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: _emailController,
       autofocus: true,
       keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Email",
           labelStyle:
               TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -90,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -109,11 +107,11 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: _senhaController,
       decoration: InputDecoration(
         hintText: "Senha",
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Color.fromRGBO(30, 30, 30, 100),
         ),
         suffixIcon: IconButton(
-          icon: _passVis ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+          icon: _passVis ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
           onPressed: () {
             setState(() {
               _passVis = !_passVis;
@@ -133,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
       autofocus: true,
       keyboardType: TextInputType.text,
       obscureText: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Confirmar Senha",
           labelStyle:
               TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -164,9 +162,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Cadastro",
             style: const TextStyle(
               color: Colors.black,
@@ -174,15 +172,15 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           centerTitle: true,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.all(35),
+          padding: const EdgeInsets.all(35),
           child: Center(
             child: SingleChildScrollView(
               child: Form(
@@ -190,28 +188,27 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Divider(),
+                      const Divider(),
                       _buildTextName(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       _buildTextEmail(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       _buildProfileOption(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       _buildPassword(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildRewritePassword(),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Container(
                         height: 50.0,
                         width: 430.0,
                         child: ElevatedButton(
-                          child: Text('Cadastrar'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 57, 115, 240),
                             textStyle: const TextStyle(
@@ -239,8 +236,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text('Registro bem-sucedido'),
-                                    content: Text(
+                                    title: const Text('Registro bem-sucedido'),
+                                    content: const Text(
                                         'Seu registro foi concluído com sucesso!'),
                                     actions: [
                                       TextButton(
@@ -258,7 +255,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text('Erro de Registro'),
+                                    title: const Text('Erro de Registro'),
                                     content: Text(
                                         'O registro falhou. Tente novamente mais tarde.'),
                                     actions: [
@@ -274,20 +271,21 @@ class _SignUpPageState extends State<SignUpPage> {
                               );
                             }
                           },
+                            child: const Text('Cadastrar')
                         ),
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       RichText(
                         text: TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               style: TextStyle(
                                 color: Color.fromARGB(255, 5, 5, 5),
                               ),
                               text: "Já tem uma conta? ",
                             ),
                             TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 0, 0, 0),
                               ),

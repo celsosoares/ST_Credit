@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:st_credit/pages/homeUser.dart';
 import 'package:st_credit/pages/initialPage.dart';
 import 'package:st_credit/pages/signupPage.dart';
@@ -26,7 +24,7 @@ class _SignInPageState extends State<SignInPage> {
       controller: _emailController, // Vincule o controlador ao campo de e-mail.
       autofocus: true,
       keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Email",
         labelStyle:
             TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 20),
@@ -40,12 +38,12 @@ class _SignInPageState extends State<SignInPage> {
           _passwordController, // Vincule o controlador ao campo de senha.
       decoration: InputDecoration(
         hintText: "Senha",
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Color.fromRGBO(30, 30, 30, 100),
           fontSize: 20,
         ),
         suffixIcon: IconButton(
-          icon: _passVis ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+          icon: _passVis ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
           onPressed: () {
             setState(() {
               _passVis = !_passVis;
@@ -62,7 +60,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
           leading:  IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -76,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
           backgroundColor: Colors.white,
         ),
         body: Padding(
-          padding: EdgeInsets.all(35),
+          padding: const EdgeInsets.all(35),
           child: Center(
             child: SingleChildScrollView(
                 child: Column(children: <Widget>[
@@ -91,8 +89,8 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 35),
-              Divider(),
+              const SizedBox(height: 35),
+              const Divider(),
               Container(
                 child: Column(
                   children: <Widget>[
@@ -102,7 +100,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -110,7 +108,7 @@ class _SignInPageState extends State<SignInPage> {
                     onTap: () {
                       // TODO: Navegar para a página de recuperação de senha
                     },
-                    child: Text(
+                    child: const Text(
                       "Esqueceu a senha?",
                       style: TextStyle(
                         color: Color.fromARGB(255, 123, 128, 136),
@@ -120,12 +118,11 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Container(
                 height: 50.0,
                 width: 430.0,
                 child: ElevatedButton(
-                  child: Text('Entrar'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 57, 115, 240),
                     textStyle: const TextStyle(
@@ -170,20 +167,21 @@ class _SignInPageState extends State<SignInPage> {
                       );
                     }
                   },
+                    child: const Text('Entrar')
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       style: TextStyle(
                         color: Color.fromARGB(255, 5, 5, 5),
                       ),
                       text: "Não tem uma conta? ",
                     ),
                     TextSpan(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 0, 0, 0),
                       ),

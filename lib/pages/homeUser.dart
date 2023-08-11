@@ -1,7 +1,7 @@
 import 'package:st_credit/pages/statusPage.dart';
 import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/PrimeiroPasso.dart';
+import 'package:st_credit/pages/clientAnalysisOnePage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../firebase/firebase_service.dart';
@@ -46,11 +46,6 @@ class _HomeUserState extends State<HomeUser> {
           perfilUsuario = user['perfil'];
           idUsuario = user['id'];
         });
-        print(nomeUsuario);
-        print(emailUsuario);
-        print(perfilUsuario);
-        print(idUsuario);
-        print(user);
       } else {
         print('Usuário não encontrado.');
       }

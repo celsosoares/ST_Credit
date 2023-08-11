@@ -41,7 +41,7 @@ class _StatusState extends State<UserHistory> {
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.push(
               context,
@@ -56,7 +56,7 @@ class _StatusState extends State<UserHistory> {
       body: Center(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Colors.white,
@@ -64,7 +64,7 @@ class _StatusState extends State<UserHistory> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: datas.length,
@@ -79,7 +79,7 @@ class _StatusState extends State<UserHistory> {
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                              color: Color.fromARGB(255, 235, 232, 232)
+                              color: const Color.fromARGB(255, 235, 232, 232)
                                   .withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
@@ -90,7 +90,7 @@ class _StatusState extends State<UserHistory> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(date, style: TextStyle(fontSize: 18)),
+                            Text(date, style: const TextStyle(fontSize: 18)),
                             Text(
                               isAprovado ? 'Aprovado' : 'Negado',
                               style: GoogleFonts.urbanist(

@@ -1,7 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/SegundoPasso.dart';
+import 'package:st_credit/pages/clientAnalysisSecondPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 
 class ClientAnalysisOnePage extends StatefulWidget {
@@ -15,7 +14,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
     return TextFormField(
       autofocus: true,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Nome",
           labelStyle:
           TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -34,7 +33,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
     return TextFormField(
       autofocus: true,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Sobrenome",
           labelStyle:
           TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -53,7 +52,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
     return TextFormField(
       autofocus: true,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Idade",
           labelStyle:
           TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
@@ -86,7 +85,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -119,7 +118,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -145,7 +144,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -167,25 +166,25 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Análise",
-            style: const TextStyle(
+            style:  TextStyle(
               color: Colors.black,
               fontSize: 20,
             ),
           ),
           centerTitle: true,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
+          leading: IconButton(
+            icon:  Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.white,
         ),
         body: Padding(
-            padding: EdgeInsets.all(35),
+            padding: const EdgeInsets.all(35),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(children: <Widget>[
@@ -206,39 +205,37 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Divider(),
+                            const Divider(),
                             _buildTextName(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _buildTextLastName(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _buildTextAge(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _buildSchooling(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _buildMaritalStatus(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _buildChildren(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
                               height: 50.0,
                               width: 430.0,
                               child: ElevatedButton(
-                                child: Text('Continuar'),
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                    Color.fromARGB(255, 57, 115, 240),
+                                    backgroundColor: const Color.fromARGB(255, 57, 115, 240),
                                     textStyle: const TextStyle(
                                         color: Colors.white,
                                         fontStyle: FontStyle.normal,
@@ -250,9 +247,10 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
                                       MaterialPageRoute(
                                           builder: (context) => ClientAnalysisSecondPage()));
                                 },
+                                  child: const Text('Continuar')
                               ),
                             ),
-                            SizedBox(height: 50),
+                            const SizedBox(height: 50),
                           ]),
                     ),
                   )

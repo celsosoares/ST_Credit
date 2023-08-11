@@ -1,24 +1,23 @@
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/TerceiroPasso.dart';
+import 'package:st_credit/pages/AnalysisDone.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 
-class ClientAnalysisSecondPage extends StatefulWidget {
+class ClientAnalysisThirdPage extends StatefulWidget {
   @override
-  _ClientAnalysisSecondPageState createState() => _ClientAnalysisSecondPageState();
+  _ClientAnalysisThirdPageState createState() => _ClientAnalysisThirdPageState();
 }
 
-class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
+class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
 
-  Widget _buildCarStatus() {
+  Widget _buildJobStatus() {
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
         autofocus: true,
         value: dropdownValue1,
         items: <String>[
-          'Tem carro?',
+          'Tem emprego?',
           'Sim',
           'Não'
         ].map<DropdownMenuItem<String>>((String value) {
@@ -26,7 +25,7 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -40,22 +39,38 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
     );
   }
 
-  Widget _buildPropertyStatus() {
+  Widget _buildJob() {
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
         autofocus: true,
         value: dropdownValue2,
         items: <String>[
-          'Tem propriedades?',
-          'Sim',
-          'Não'
+          'Ocupação',
+          'Segurança',
+          'Equipe de Vendas',
+          'Contadores',
+          'Trabalhadores',
+          'Gerentes',
+          'Motoristas',
+          'Equipe Principal',
+          'Equipe Técnica de Alta Qualificação',
+          'Equipe de Limpeza',
+          'Equipe de Serviço Privado',
+          'Equipe de Cozinha',
+          'Trabalhadores de Baixa Qualificação',
+          'Equipe de Medicina',
+          'Secretárias',
+          'Equipe de Garçons/Barmen',
+          'Equipe de Recursos Humanos',
+          'Agentes Imobiliários',
+          'Equipe de TI'
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
@@ -69,74 +84,59 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
     );
   }
 
-  Widget _buildTypeHousing() {
-    return Container(
-      width: double.infinity,
-      child: DropdownButton<String>(
-        autofocus: true,
-        value: dropdownValue3,
-        items: <String>[
-          'Tipo de moradia',
-          "Apartamento Alugado",
-          "Casa / Apartamento Próprio",
-          "Apartamento Municipal",
-          "Com os Pais",
-          "Apartamento em Cooperativa",
-          "Apartamento no Escritório"
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(
-              value,
-              style: TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
-            ),
-          );
-        }).toList(),
-        onChanged: (String? newValue) {
-          setState(() {
-            dropdownValue3 = newValue!;
-          });
-        },
-      ),
+  Widget _buildAnnualIncome() {
+    return TextFormField(
+      autofocus: true,
+      keyboardType: TextInputType.text,
+      decoration: const InputDecoration(
+          labelText: "Rendimento anual",
+          labelStyle:
+          TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+      validator: (value) {
+        if (value != null && value.isEmpty) {
+          return "O rendimento anual é obrigatório";
+        } else if (value != null && value.length > 30) {
+          return "Rendimento anual invalido";
+        }
+        return null;
+      },
     );
   }
 
-  String dropdownValue1 = 'Tem carro?';
-  String dropdownValue2 = 'Tem propriedades?';
-  String dropdownValue3 = 'Tipo de moradia';
+  String dropdownValue1 = 'Tem emprego?';
+  String dropdownValue2 = 'Ocupação';
 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Análise",
-            style: const TextStyle(
+            style:  TextStyle(
               color: Colors.black,
               fontSize: 20,
             ),
           ),
           centerTitle: true,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
+          leading:  IconButton(
+            icon:  Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.white,
         ),
         body: Padding(
-            padding: EdgeInsets.all(35),
+            padding: const EdgeInsets.all(35),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(children: <Widget>[
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Informe seus dados posses.',
+                      'Informe seus dados financeiros.',
                       style: GoogleFonts.dmSans(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -150,27 +150,27 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Divider(),
-                            _buildCarStatus(),
-                            SizedBox(
+                            const Divider(),
+                            _buildJobStatus(),
+                            const SizedBox(
                               height: 10,
                             ),
-                            _buildPropertyStatus(),
-                            SizedBox(
+                            _buildJob(),
+                            const SizedBox(
                               height: 10,
                             ),
-                            _buildTypeHousing(),
-                            SizedBox(
+                            _buildAnnualIncome(),
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
                               height: 50.0,
                               width: 430.0,
                               child: ElevatedButton(
-                                child: Text('Continuar'),
+                                child: const Text('Concluir'),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                    Color.fromARGB(255, 57, 115, 240),
+                                    const Color.fromARGB(255, 57, 115, 240),
                                     textStyle: const TextStyle(
                                         color: Colors.white,
                                         fontStyle: FontStyle.normal,
@@ -180,11 +180,11 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ClientAnalysisThirdPage()));
+                                          builder: (context) => AnalysisDone()));
                                 },
                               ),
                             ),
-                            SizedBox(height: 50),
+                            const SizedBox(height: 50),
                           ]),
                     ),
                   )

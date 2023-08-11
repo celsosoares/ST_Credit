@@ -23,16 +23,16 @@ class _AnalysisDone extends State<AnalysisDone> {
                   child: Container(
                     height: 120,
                     width: 120,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage("assets/images/seila.png"),
+                        image: AssetImage("assets/images/check.png"),
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -45,7 +45,7 @@ class _AnalysisDone extends State<AnalysisDone> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -57,13 +57,12 @@ class _AnalysisDone extends State<AnalysisDone> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
                   height: 45.0,
                   width: 430.0,
                   child: ElevatedButton(
-                    child: Text('Voltar para tela Home'),
-                    style: ElevatedButton.styleFrom(
+                      style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(255, 57, 115, 240),
                         textStyle: const TextStyle(
                           color: Colors.white,
@@ -77,9 +76,10 @@ class _AnalysisDone extends State<AnalysisDone> {
                               builder: (context) => HomeUser(
                                   email: "email", nome: "Nome do Usuário")));
                     },
+                      child: const Text('Voltar para tela Home')
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ])),
             ),
           ),

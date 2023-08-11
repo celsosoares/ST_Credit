@@ -40,7 +40,7 @@ class _StatusState extends State<StatusPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.push(
               context,
@@ -77,7 +77,7 @@ class _StatusState extends State<StatusPage> {
                         height: 200,
                       ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'A solicitação de cartão foi',
                 style: GoogleFonts.urbanist(
@@ -89,7 +89,7 @@ class _StatusState extends State<StatusPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Align(
                 alignment: Alignment.center,
                 child: isAprovado
@@ -115,22 +115,22 @@ class _StatusState extends State<StatusPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           Container(
                             width: 300,
-                            child: Text(
+                            child: const Text(
                               'A análise leva em conta vários fatores e nesse momento não conseguimos liberar um cartão de crédito para você. Faça um novo pedido daqui há 3 dias.',
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(260, 55),
                             ),
                             autofocus: false,
                             onPressed: () {},
-                            child: Text("Solicitar Reanálise"),
+                            child: const Text("Solicitar Reanálise"),
                           ),
                         ],
                       ),
