@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../firebase/firebase_auth.dart';
 import 'homeUser.dart';
 
-class HistoricPage extends StatefulWidget {
-  @override
-  State<HistoricPage> createState() => _HistoricoState();
-}
-
-class _HistoricoState extends State<HistoricPage> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: UserHistory(),
-    );
-  }
-}
-
 class UserHistory extends StatefulWidget {
+
+  final String email;
+  final String nome;
+  UserHistory({required this.email, required this.nome});
   @override
   State<UserHistory> createState() => _StatusState();
 }
@@ -29,6 +21,7 @@ class _StatusState extends State<UserHistory> {
     '2023-08-15',
   ];
   bool isAprovado = false; // vai receber dentro da lista
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +47,7 @@ class _StatusState extends State<UserHistory> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HomeUser(email: "email", nome: "Nome do Usuário")),
+                      HomeUser(email: widget.email, nome: widget.nome)),
             );
             // Voltar à tela anterior
           },
@@ -122,27 +115,25 @@ class _StatusState extends State<UserHistory> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            if (_currentIndex == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        HomeUser(email: "email", nome: "Nome do Usuário")),
-              );
-            }
           });
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeUser(email: widget.email, nome: widget.nome)),
+            );
+          }else{
+            authService.logoutAndNavigateToHome(context);
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Página Inicial',
-          ),
+              icon: Icon(Icons.home), label: 'Página Inicial'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Configurações',
-          ),
+              icon: FaIcon(FontAwesomeIcons.doorOpen), label: 'Sair')
         ],
       ),
     );

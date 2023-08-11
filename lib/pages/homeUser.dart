@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:st_credit/pages/statusPage.dart';
-import 'package:st_credit/pages/historicPage.dart';
+import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:st_credit/pages/PrimeiroPasso.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../firebase/firebase_service.dart';
+import '../firebase/firebase_auth.dart';
 
 class HomeUser extends StatefulWidget {
   final String email;
@@ -24,6 +23,7 @@ class _HomeUserState extends State<HomeUser> {
   String perfilUsuario = '';
   String idUsuario = '';
   int _currentIndex = 0;
+  AuthService authService = AuthService();
 
   final FirebaseService firebaseService = FirebaseService();
 
@@ -50,6 +50,7 @@ class _HomeUserState extends State<HomeUser> {
         print(emailUsuario);
         print(perfilUsuario);
         print(idUsuario);
+        print(user);
       } else {
         print('Usuário não encontrado.');
       }
@@ -75,7 +76,7 @@ class _HomeUserState extends State<HomeUser> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
                           'Bem vindo,',
@@ -86,10 +87,10 @@ class _HomeUserState extends State<HomeUser> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Text(
                           nomeUsuario,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w800),
@@ -182,7 +183,7 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StatusPage()),
+                                  builder: (context) => StatusPage(email: emailUsuario, nome: nomeUsuario)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -216,7 +217,7 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HistoricPage()),
+                                  builder: (context) => UserHistory(email: emailUsuario, nome: nomeUsuario,)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -280,6 +281,16 @@ class _HomeUserState extends State<HomeUser> {
           setState(() {
             _currentIndex = index;
           });
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeUser(email: emailUsuario, nome: nomeUsuario)),
+            );
+          }else{
+            authService.logoutAndNavigateToHome(context);
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -287,7 +298,7 @@ class _HomeUserState extends State<HomeUser> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: 'Página Inicial'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Configurações')
+              icon: FaIcon(FontAwesomeIcons.doorOpen), label: 'Sair')
         ],
       ),
     );

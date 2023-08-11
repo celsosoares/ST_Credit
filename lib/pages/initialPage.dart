@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:st_credit/pages/signinPage.dart';
-import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InitialPage extends StatefulWidget {

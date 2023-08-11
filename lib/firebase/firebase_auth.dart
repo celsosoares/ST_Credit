@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:st_credit/pages/signinPage.dart';
+import 'package:st_credit/pages/signupPage.dart';
 
 
 class AuthService {
@@ -31,7 +34,16 @@ class AuthService {
   }
 
   // Deslogar
-  Future<void> signOut() async {
-    await _auth.signOut();
+  Future<void> logoutAndNavigateToHome(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SignInPage()), // Tela inicial do seu aplicativo
+            (route) => false, // Remove todas as rotas anteriores da pilha
+      );
+    } catch (e) {
+      print('Erro ao realizar logout: $e');
+    }
   }
 }

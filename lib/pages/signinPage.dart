@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:st_credit/pages/homeUser.dart';
+import 'package:st_credit/pages/initialPage.dart';
 import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -63,10 +64,14 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
+          leading:  IconButton(
+            icon: const Icon(Icons.arrow_back),
             color: Colors.black,
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        InitialPage())),
           ),
           backgroundColor: Colors.white,
         ),

@@ -1,9 +1,14 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../firebase/firebase_auth.dart';
 import 'homeUser.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StatusPage extends StatefulWidget {
+
+  final String email;
+  final String nome;
+  StatusPage({required this.email, required this.nome});
   @override
   State<StatusPage> createState() => _StatusState();
 }
@@ -12,6 +17,7 @@ class _StatusState extends State<StatusPage> {
   int _currentIndex = 0;
   bool isAprovado = false;
   double len = 200;
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class _StatusState extends State<StatusPage> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HomeUser(email: "email", nome: "Nome do Usuário")),
+                      HomeUser(email: widget.email, nome: widget.nome)),
             );
             // Voltar à tela anterior
           },
@@ -138,27 +144,25 @@ class _StatusState extends State<StatusPage> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            if (_currentIndex == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        HomeUser(email: "email", nome: "Nome do Usuário")),
-              );
-            }
           });
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeUser(email: widget.email, nome: widget.nome)),
+            );
+          }else{
+            authService.logoutAndNavigateToHome(context);
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Página Inicial',
-          ),
+              icon: Icon(Icons.home), label: 'Página Inicial'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Configurações',
-          ),
+              icon: FaIcon(FontAwesomeIcons.doorOpen), label: 'Sair')
         ],
       ),
     );
