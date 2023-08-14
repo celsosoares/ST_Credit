@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:st_credit/pages/signinPage.dart';
-import 'package:st_credit/pages/signupPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InitialPage extends StatefulWidget {
@@ -15,9 +11,9 @@ class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/background.png'),
               fit: BoxFit.cover,
@@ -33,7 +29,7 @@ class _InitialPageState extends State<InitialPage> {
                   child: Container(
                     height: 40,
                     width: 40,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: AssetImage("assets/images/logotipo.png"),
@@ -42,20 +38,20 @@ class _InitialPageState extends State<InitialPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 180),
+                const SizedBox(height: 180),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Bem vindo ao ST Credit!',
                     style: GoogleFonts.dmSans(
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: 23.0,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -67,14 +63,14 @@ class _InitialPageState extends State<InitialPage> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
                   height: 45.0,
                   width: 430.0,
                   child: ElevatedButton(
-                    child: Text('Sou um Analista Financeiro'),
+                    child: const Text('Sou um Analista Financeiro'),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 57, 115, 240),
+                        backgroundColor: const Color.fromARGB(255, 57, 115, 240),
                         textStyle: const TextStyle(
                           color: Colors.white,
                           fontStyle: FontStyle.normal,
@@ -88,15 +84,14 @@ class _InitialPageState extends State<InitialPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   height: 45.0,
                   width: 430.0,
                   child: ElevatedButton(
-                    child: Text('Sou um Cliente'),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                        side: BorderSide(
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        side: const BorderSide(
                             color: Color.fromARGB(255, 255, 255, 255),
                             width: 1.0),
                         textStyle: const TextStyle(
@@ -110,6 +105,7 @@ class _InitialPageState extends State<InitialPage> {
                           MaterialPageRoute(
                               builder: (context) => SignInPage()));
                     },
+                      child: const Text('Sou um Cliente')
                   ),
                 ),
               ])),

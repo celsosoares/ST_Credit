@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "646035201718",
+    "project_id": "st-credit-test",
+    "storage_bucket": "st-credit-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646035201718:android:c583e39b000bea8fb19017",
+        "android_client_info": {
+          "package_name": "com.example.st_credit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646035201718-mjurnek46d7fmpbmrb0n98rroe8l4vk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjhtwtBXNvgOYNCN9Q5C8-b4s4Mtfj9SY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646035201718-mjurnek46d7fmpbmrb0n98rroe8l4vk3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "646035201718-14d98ejb7nofn3pnhaet99efhb8f5gc3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.stCredit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

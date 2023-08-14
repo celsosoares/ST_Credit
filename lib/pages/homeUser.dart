@@ -1,19 +1,58 @@
-import 'dart:io';
 import 'package:st_credit/pages/statusPage.dart';
-import 'package:st_credit/pages/historicPage.dart';
+import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/PrimeiroPasso.dart';
+import 'package:st_credit/pages/clientAnalysisOnePage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../firebase/firebase_service.dart';
+import '../firebase/firebase_auth.dart';
 
 class HomeUser extends StatefulWidget {
+  final String email;
+  final String nome;
+
+  HomeUser({required this.email, required this.nome});
+
   @override
   _HomeUserState createState() => _HomeUserState();
 }
 
 class _HomeUserState extends State<HomeUser> {
+  String nomeUsuario = '';
+  String emailUsuario = '';
+  String perfilUsuario = '';
+  String idUsuario = '';
   int _currentIndex = 0;
-  final List<Widget> _pages = [HomeUser(), HomeUser()];
+  AuthService authService = AuthService();
+
+  final FirebaseService firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _performRequests();
+  }
+
+  Future<void> _performRequests() async {
+    try {
+      String email = widget.email;
+
+      Map<String, dynamic>? user = await firebaseService.getUserByEmail(email);
+
+      if (user != null) {
+        setState(() {
+          nomeUsuario = user['nome'];
+          emailUsuario = user['email'];
+          perfilUsuario = user['perfil'];
+          idUsuario = user['id'];
+        });
+      } else {
+        print('Usuário não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter usuário: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +67,14 @@ class _HomeUserState extends State<HomeUser> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          'Bem vinda,',
+                          'Bem vindo,',
                           style: TextStyle(
                               fontSize: 20,
                               color: Color(0xFFFFFFFF),
@@ -43,10 +82,10 @@ class _HomeUserState extends State<HomeUser> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Text(
-                          "Carla M.",
-                          style: TextStyle(
+                          nomeUsuario,
+                          style: const TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w800),
@@ -139,7 +178,7 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StatusPage()),
+                                  builder: (context) => StatusPage(email: emailUsuario, nome: nomeUsuario)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -173,7 +212,7 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HistoricPage()),
+                                  builder: (context) => UserHistory(email: emailUsuario, nome: nomeUsuario,)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -237,6 +276,16 @@ class _HomeUserState extends State<HomeUser> {
           setState(() {
             _currentIndex = index;
           });
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeUser(email: emailUsuario, nome: nomeUsuario)),
+            );
+          }else{
+            authService.logoutAndNavigateToHome(context);
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -244,7 +293,7 @@ class _HomeUserState extends State<HomeUser> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: 'Página Inicial'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Configurações')
+              icon: FaIcon(FontAwesomeIcons.doorOpen), label: 'Sair')
         ],
       ),
     );
