@@ -1,23 +1,74 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:st_credit/pages/clientAnalysisSecondPage.dart';
 import 'package:flutter/material.dart';
+import '../firebase/firebase_auth.dart';
+import '../firebase/firebase_service.dart';
 
+class Client {
+  final String nome;
+  final String sobrenome;
+  final String idade;
+  final String escolaridade;
+  final String estadoCivil;
+  final String filhos;
+  final String temCarro;
+  final String temPropriedade;
+  final String tipoDeMoradia;
+  final String temEmprego;
+  final String ocupacao;
+  final String redimentoAnual;
+  final String status;
+  final String email;
+
+  Client({
+    required this.nome,
+    required this.sobrenome,
+    required this.idade,
+    required this.escolaridade,
+    required this.estadoCivil,
+    required this.filhos,
+    required this.temCarro,
+    required this.temPropriedade,
+    required this.tipoDeMoradia,
+    required this.temEmprego,
+    required this.ocupacao,
+    required this.redimentoAnual,
+    required this.status,
+    required this.email,
+  });
+}
 
 class ClientAnalysisOnePage extends StatefulWidget {
+  final String email;
+  ClientAnalysisOnePage({required this.email});
+
   @override
   _ClientAnalysisOnePageState createState() => _ClientAnalysisOnePageState();
 }
 
 class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
+  final FirebaseService firebaseService = FirebaseService();
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _sobrenomeController = TextEditingController();
+  final TextEditingController _idadeController = TextEditingController();
+  final TextEditingController _escolaridadeController = TextEditingController();
+  final TextEditingController _estadoCivilController = TextEditingController();
+  final TextEditingController _filhosController = TextEditingController();
+
+  AuthService authService = AuthService();
 
   Widget _buildTextName() {
     return TextFormField(
+      controller: _nomeController,
       autofocus: true,
       keyboardType: TextInputType.text,
       decoration: const InputDecoration(
           labelText: "Nome",
           labelStyle:
-          TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
       validator: (value) {
         if (value != null && value.isEmpty) {
           return "O nome é obrigatório";
@@ -31,12 +82,13 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
 
   Widget _buildTextLastName() {
     return TextFormField(
+      controller: _sobrenomeController,
       autofocus: true,
       keyboardType: TextInputType.text,
       decoration: const InputDecoration(
           labelText: "Sobrenome",
           labelStyle:
-          TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
       validator: (value) {
         if (value != null && value.isEmpty) {
           return "O sobrenome é obrigatório";
@@ -50,12 +102,13 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
 
   Widget _buildTextAge() {
     return TextFormField(
+      controller: _idadeController,
       autofocus: true,
       keyboardType: TextInputType.text,
       decoration: const InputDecoration(
           labelText: "Idade",
           labelStyle:
-          TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
       validator: (value) {
         if (value != null && value.isEmpty) {
           return "A idade é obrigatório";
@@ -98,7 +151,6 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
       ),
     );
   }
-
 
   Widget _buildMaritalStatus() {
     return Container(
@@ -170,14 +222,14 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
         appBar: AppBar(
           title: const Text(
             "Análise",
-            style:  TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontSize: 20,
             ),
           ),
           centerTitle: true,
           leading: IconButton(
-            icon:  Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -234,21 +286,45 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
                               height: 50.0,
                               width: 430.0,
                               child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(255, 57, 115, 240),
-                                    textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.bold)),
-                                onPressed: () {
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ClientAnalysisSecondPage()));
-                                },
-                                  child: const Text('Continuar')
-                              ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 57, 115, 240),
+                                      textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.bold)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ClientAnalysisSecondPage(
+                                                  client: Client(
+                                                      nome: _nomeController.text
+                                                          .trim(),
+                                                      sobrenome:
+                                                          _sobrenomeController
+                                                              .text
+                                                              .trim(),
+                                                      idade: _idadeController
+                                                          .text
+                                                          .trim(),
+                                                      escolaridade:
+                                                          dropdownValue1,
+                                                      estadoCivil:
+                                                          dropdownValue2,
+                                                      filhos: dropdownValue3,
+                                                      temCarro: "",
+                                                      temPropriedade: "",
+                                                      tipoDeMoradia: "",
+                                                      temEmprego: "",
+                                                      ocupacao: "",
+                                                      redimentoAnual: "",
+                                                      status: "",
+                                                      email: widget.email),
+                                                )));
+                                  },
+                                  child: const Text('Continuar')),
                             ),
                             const SizedBox(height: 50),
                           ]),

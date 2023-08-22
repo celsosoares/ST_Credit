@@ -146,7 +146,7 @@ class _HomeUserState extends State<HomeUser> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ClientAnalysisOnePage()));
+                                        ClientAnalysisOnePage(email: emailUsuario)));
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF7F8F9)),
