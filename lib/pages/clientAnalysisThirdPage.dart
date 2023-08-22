@@ -1,14 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:st_credit/pages/AnalysisDone.dart';
 import 'package:flutter/material.dart';
 
+import '../firebase/firebase_auth.dart';
+import '../firebase/firebase_service.dart';
+import 'clientAnalysisOnePage.dart';
 
 class ClientAnalysisThirdPage extends StatefulWidget {
+  final Client client;
+
+  ClientAnalysisThirdPage({required this.client});
+
   @override
-  _ClientAnalysisThirdPageState createState() => _ClientAnalysisThirdPageState();
+  _ClientAnalysisThirdPageState createState() =>
+      _ClientAnalysisThirdPageState();
 }
 
 class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
+  final FirebaseService firebaseService = FirebaseService();
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  final TextEditingController _temEmpregoController = TextEditingController();
+  final TextEditingController _temOcupacaoController = TextEditingController();
+  final TextEditingController _rendimentoAnualController =
+      TextEditingController();
+
+  AuthService authService = AuthService();
 
   Widget _buildJobStatus() {
     return Container(
@@ -16,11 +34,8 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
       child: DropdownButton<String>(
         autofocus: true,
         value: dropdownValue1,
-        items: <String>[
-          'Tem emprego?',
-          'Sim',
-          'Não'
-        ].map<DropdownMenuItem<String>>((String value) {
+        items: <String>['Tem emprego?', 'Sim', 'Não']
+            .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
@@ -91,7 +106,7 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
       decoration: const InputDecoration(
           labelText: "Rendimento anual",
           labelStyle:
-          TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
+              TextStyle(color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15)),
       validator: (value) {
         if (value != null && value.isEmpty) {
           return "O rendimento anual é obrigatório";
@@ -106,23 +121,56 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
   String dropdownValue1 = 'Tem emprego?';
   String dropdownValue2 = 'Ocupação';
 
+  void sendData(
+      nome,
+      sobrenome,
+      idade,
+      escolaridade,
+      estadoCivil,
+      filhos,
+      temCarro,
+      temPropriedade,
+      tipoMoradia,
+      temEmprego,
+      ocupacao,
+      rendimentoAnual,
+      email) async {
+    Map<String, dynamic> userData = {
+      'nome': nome,
+      'sobrenome': sobrenome,
+      'idade': idade,
+      'escolaridade': escolaridade,
+      'estado_civil': estadoCivil,
+      'filhos': filhos,
+      'tem_carro': temCarro,
+      'tem_propriedade': temPropriedade,
+      'tipo_moradia': tipoMoradia,
+      'tem_emprego': temEmprego,
+      'ocupacao': rendimentoAnual,
+      'status': 'em analise',
+      'email': email
+    };
+
+    await firebaseService.addClient(userData);
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Client myClient = widget.client;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
           title: const Text(
             "Análise",
-            style:  TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontSize: 20,
             ),
           ),
           centerTitle: true,
-          leading:  IconButton(
-            icon:  Icon(Icons.arrow_back),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -170,17 +218,31 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
                                 child: const Text('Concluir'),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                    const Color.fromARGB(255, 57, 115, 240),
+                                        const Color.fromARGB(255, 57, 115, 240),
                                     textStyle: const TextStyle(
                                         color: Colors.white,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () {
-
+                                  sendData(
+                                      myClient.nome,
+                                      myClient.sobrenome,
+                                      myClient.idade,
+                                      myClient.escolaridade,
+                                      myClient.estadoCivil,
+                                      myClient.filhos,
+                                      myClient.temCarro,
+                                      myClient.temPropriedade,
+                                      myClient.tipoDeMoradia,
+                                      myClient.temEmprego,
+                                      myClient.ocupacao,
+                                      myClient.redimentoAnual,
+                                      myClient.email);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AnalysisDone()));
+                                          builder: (context) =>
+                                              AnalysisDone()));
                                 },
                               ),
                             ),
