@@ -1,3 +1,4 @@
+import 'package:st_credit/pages/faqPage.dart';
 import 'package:st_credit/pages/statusPage.dart';
 import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +146,7 @@ class _HomeUserState extends State<HomeUser> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ClientAnalysisOnePage()));
+                                        ClientAnalysisOnePage(email: emailUsuario)));
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF7F8F9)),
@@ -178,7 +179,8 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StatusPage(email: emailUsuario, nome: nomeUsuario)),
+                                  builder: (context) => StatusPage(
+                                      email: emailUsuario, nome: nomeUsuario)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -212,7 +214,10 @@ class _HomeUserState extends State<HomeUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserHistory(email: emailUsuario, nome: nomeUsuario,)),
+                                  builder: (context) => UserHistory(
+                                        email: emailUsuario,
+                                        nome: nomeUsuario,
+                                      )),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -242,7 +247,13 @@ class _HomeUserState extends State<HomeUser> {
                             border:
                                 Border.all(color: Colors.grey, width: 0.10)),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FAQPage()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF7F8F9)),
                           child: Row(
@@ -283,7 +294,7 @@ class _HomeUserState extends State<HomeUser> {
                   builder: (context) =>
                       HomeUser(email: emailUsuario, nome: nomeUsuario)),
             );
-          }else{
+          } else {
             authService.logoutAndNavigateToHome(context);
           }
         },

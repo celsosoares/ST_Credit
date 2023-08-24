@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseService {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference clientsCollection =
+      FirebaseFirestore.instance.collection('clients');
 
   Future<List<Map<String, dynamic>>> getUsers() async {
     List<Map<String, dynamic>> usersList = [];
@@ -47,6 +49,15 @@ class FirebaseService {
       print('Usuário adicionado com sucesso!');
     } catch (e) {
       print('Erro ao adicionar usuário: $e');
+    }
+  }
+
+  Future<void> addClient(Map<String, dynamic> userData) async {
+    try {
+      await clientsCollection.add(userData);
+      print('Cliente cadastrado com sucesso!');
+    } catch (e) {
+      print('Erro ao cadastrar cliente: $e');
     }
   }
 }

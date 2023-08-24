@@ -1,14 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/clientAnalysisThirdPage.dart';
 
+import '../firebase/firebase_auth.dart';
+import '../firebase/firebase_service.dart';
+import 'clientAnalysisOnePage.dart';
 
 class ClientAnalysisSecondPage extends StatefulWidget {
+  final Client client;
+
+  ClientAnalysisSecondPage({required this.client});
+
   @override
-  _ClientAnalysisSecondPageState createState() => _ClientAnalysisSecondPageState();
+  _ClientAnalysisSecondPageState createState() =>
+      _ClientAnalysisSecondPageState();
 }
 
 class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
+  final FirebaseService firebaseService = FirebaseService();
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  final TextEditingController _temCarroController = TextEditingController();
+  final TextEditingController _temPropriedadeController =
+      TextEditingController();
+  final TextEditingController _tipoDeMoradiaController =
+      TextEditingController();
+
+  AuthService authService = AuthService();
 
   Widget _buildCarStatus() {
     return Container(
@@ -16,11 +35,8 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
       child: DropdownButton<String>(
         autofocus: true,
         value: dropdownValue1,
-        items: <String>[
-          'Tem carro?',
-          'Sim',
-          'Não'
-        ].map<DropdownMenuItem<String>>((String value) {
+        items: <String>['Tem carro?', 'Sim', 'Não']
+            .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
@@ -45,11 +61,8 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
       child: DropdownButton<String>(
         autofocus: true,
         value: dropdownValue2,
-        items: <String>[
-          'Tem propriedades?',
-          'Sim',
-          'Não'
-        ].map<DropdownMenuItem<String>>((String value) {
+        items: <String>['Tem propriedades?', 'Sim', 'Não']
+            .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
@@ -88,7 +101,7 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
             child: Text(
               value,
               style: const TextStyle(
-                  color:  Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
             ),
           );
         }).toList(),
@@ -105,10 +118,10 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
   String dropdownValue2 = 'Tem propriedades?';
   String dropdownValue3 = 'Tipo de moradia';
 
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Client myClient = widget.client;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
@@ -120,7 +133,7 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
             ),
           ),
           centerTitle: true,
-          leading:  IconButton(
+          leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
@@ -166,22 +179,42 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                               height: 50.0,
                               width: 430.0,
                               child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                    Color.fromARGB(255, 57, 115, 240),
-                                    textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.bold)),
-                                onPressed: () {
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ClientAnalysisThirdPage()));
-                                },
-                                  child: const Text('Continuar')
-                              ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 57, 115, 240),
+                                      textStyle: const TextStyle(
+                                          color: Colors.white,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.bold)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ClientAnalysisThirdPage(
+                                                  client: Client(
+                                                      nome: myClient.nome,
+                                                      sobrenome:
+                                                          myClient.sobrenome,
+                                                      idade: myClient.idade,
+                                                      escolaridade:
+                                                          myClient.escolaridade,
+                                                      estadoCivil:
+                                                          myClient.estadoCivil,
+                                                      filhos: myClient.filhos,
+                                                      temCarro: dropdownValue1,
+                                                      temPropriedade:
+                                                          dropdownValue2,
+                                                      tipoDeMoradia:
+                                                          dropdownValue3,
+                                                      temEmprego: "",
+                                                      ocupacao: "",
+                                                      redimentoAnual: "",
+                                                      status: "",
+                                                      email: myClient.email),
+                                                )));
+                                  },
+                                  child: const Text('Continuar')),
                             ),
                             const SizedBox(height: 50),
                           ]),
