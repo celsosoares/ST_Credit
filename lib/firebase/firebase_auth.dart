@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/signinPage.dart';
-import 'package:st_credit/pages/signupPage.dart';
 
 
 class AuthService {

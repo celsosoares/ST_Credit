@@ -19,7 +19,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final TextEditingController _nomeCompletoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _profileController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
   final TextEditingController _confirmarSenhaController =
       TextEditingController();
@@ -222,8 +221,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 _nomeCompletoController.text.trim();
                             String email = _emailController.text.trim();
                             String senha = _senhaController.text.trim();
-                            String confirmarSenha =
-                                _confirmarSenhaController.text.trim();
                             String perfil = dropdownValue;
 
                             sendData(nomeCompleto, email, perfil);

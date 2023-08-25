@@ -1,42 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/clientAnalysisThirdPage.dart';
+import 'package:st_credit/pages/updateClientOnePage.dart';
+import 'package:st_credit/pages/updateClientThirdPage.dart';
 
 import '../firebase/firebase_auth.dart';
 import '../firebase/firebase_service.dart';
-import 'clientAnalysisOnePage.dart';
 
-class ClientAnalysisSecondPage extends StatefulWidget {
+class UpdateClientSecondPage extends StatefulWidget {
   final Client client;
 
-  ClientAnalysisSecondPage({required this.client});
+  UpdateClientSecondPage({required this.client});
 
   @override
-  _ClientAnalysisSecondPageState createState() =>
-      _ClientAnalysisSecondPageState();
+  _UpdateClientSecondPageState createState() => _UpdateClientSecondPageState();
 }
 
-class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
+class _UpdateClientSecondPageState extends State<UpdateClientSecondPage> {
   final FirebaseService firebaseService = FirebaseService();
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  String emailClient = '';
+  TextEditingController _temCarroController = TextEditingController();
+  TextEditingController _temPropriedadeController = TextEditingController();
+  TextEditingController _tipoMoradiaController = TextEditingController();
+
   AuthService authService = AuthService();
 
+  @override
+  void initState() {
+    super.initState();
+    _performRequests(widget.client.email);
+  }
+
+  Future<void> _performRequests(email) async {
+    try {
+      String email = widget.client.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          _temCarroController.text = client['tem_carro'];
+          _temPropriedadeController.text = client['tem_propriedade'];
+          _tipoMoradiaController.text = client['tipo_moradia'];
+          emailClient = email;
+        });
+      } else {
+        print('Usuário não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter usuário: $e');
+    }
+  }
+
   Widget _buildCarStatus() {
+    List<String> carStatusOptions = ['Sim', 'Não'];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
-        value: dropdownValue1,
-        items: <String>['Tem carro?', 'Sim', 'Não']
+        value: dropdownValue1.isEmpty ? "Tem carro?" : dropdownValue1,
+        items: ["Tem carro?", ...carStatusOptions]
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -50,19 +85,23 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
   }
 
   Widget _buildPropertyStatus() {
+    List<String> propertyStatusOptions = ['Sim', 'Não'];
+    String defaultValue = "Tem propriedades?";
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
-        value: dropdownValue2,
-        items: <String>['Tem propriedades?', 'Sim', 'Não']
+        value: dropdownValue2.isEmpty ? defaultValue : dropdownValue2,
+        items: [defaultValue, ...propertyStatusOptions]
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -76,26 +115,30 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
   }
 
   Widget _buildTypeHousing() {
+    List<String> typeHousingOptions = [
+      "Apartamento Alugado",
+      "Casa / Apartamento Próprio",
+      "Apartamento Municipal",
+      "Com os Pais",
+      "Apartamento em Cooperativa",
+      "Apartamento no Escritório"
+    ];
+    String defaultValue = "Tipo de moradia";
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
-        value: dropdownValue3,
-        items: <String>[
-          'Tipo de moradia',
-          "Apartamento Alugado",
-          "Casa / Apartamento Próprio",
-          "Apartamento Municipal",
-          "Com os Pais",
-          "Apartamento em Cooperativa",
-          "Apartamento no Escritório"
-        ].map<DropdownMenuItem<String>>((String value) {
+        value: dropdownValue3.isEmpty ? defaultValue : dropdownValue3,
+        items: [defaultValue, ...typeHousingOptions]
+            .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -142,7 +185,7 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Informe seus dados posses.',
+                      'Atualize seus dados posses.',
                       style: GoogleFonts.dmSans(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -184,8 +227,8 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ClientAnalysisThirdPage(
+                                          builder: (context) =>
+                                              UpdateClientThirdPage(
                                                   client: Client(
                                                       nome: myClient.nome,
                                                       sobrenome:
@@ -205,8 +248,8 @@ class _ClientAnalysisSecondPageState extends State<ClientAnalysisSecondPage> {
                                                       ocupacao: "",
                                                       redimentoAnual: "",
                                                       status: "",
-                                                      email: myClient.email),
-                                                )));
+                                                      email: myClient.email)),
+                                        ));
                                   },
                                   child: const Text('Continuar')),
                             ),

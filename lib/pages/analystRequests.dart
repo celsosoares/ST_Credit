@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/clientInfo.dart';
 import 'package:st_credit/pages/homeAnalyst.dart';
-import 'package:st_credit/pages/initialPage.dart';
 
 class AnalystRequests extends StatefulWidget{
 

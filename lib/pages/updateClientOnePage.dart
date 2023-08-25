@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/clientAnalysisSecondPage.dart';
 import 'package:flutter/material.dart';
+import 'package:st_credit/pages/updateClientSecondPage.dart';
 import '../firebase/firebase_auth.dart';
 import '../firebase/firebase_service.dart';
 
@@ -39,23 +38,57 @@ class Client {
   });
 }
 
-class ClientAnalysisOnePage extends StatefulWidget {
+class UpdateClientOnePage extends StatefulWidget {
   final String email;
-  ClientAnalysisOnePage({required this.email});
+  UpdateClientOnePage({required this.email});
 
   @override
-  _ClientAnalysisOnePageState createState() => _ClientAnalysisOnePageState();
+  _UpdateClientOnePageState createState() => _UpdateClientOnePageState();
 }
 
-class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
-  final FirebaseService firebaseService = FirebaseService();
-  FirebaseFirestore db = FirebaseFirestore.instance;
-
+class _UpdateClientOnePageState extends State<UpdateClientOnePage> {
+  String emailClient = '';
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _sobrenomeController = TextEditingController();
   final TextEditingController _idadeController = TextEditingController();
+  TextEditingController _escolaridadeController = TextEditingController();
+  TextEditingController _estadoCivilController = TextEditingController();
+  TextEditingController _filhosController = TextEditingController();
 
   AuthService authService = AuthService();
+
+  final FirebaseService firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _performRequests(widget.email);
+  }
+
+  Future<void> _performRequests(email) async {
+    try {
+      String email = widget.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          _nomeController.text = client['nome'];
+          _sobrenomeController.text = client['sobrenome'];
+          _idadeController.text = client['idade'];
+          _estadoCivilController.text = client['estado_civil'];
+          _filhosController.text = client['filhos'];
+          _escolaridadeController.text = client['escolaridade'];
+          emailClient = email;
+        });
+      } else {
+        print('Usuário não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter usuário: $e');
+    }
+  }
 
   Widget _buildTextName() {
     return TextFormField(
@@ -118,25 +151,29 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
   }
 
   Widget _buildSchooling() {
+    List<String> escolaridadeOptions = [
+      "Escolaridade",
+      "Ensino Superior",
+      "Ensino Médio / Ensino Médio Técnico",
+      "Ensino Superior Incompleto",
+      "Ensino Fundamental",
+      "Pós graduação/Mestrado/Doutorado"
+    ];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
         value: dropdownValue3,
-        items: <String>[
-          "Escolaridade",
-          "Ensino Superior",
-          "Ensino Médio / Ensino Médio Técnico",
-          "Ensino Superior Incompleto",
-          "Ensino Fundamental",
-          "Pós graduação/Mestrado/Doutorado"
-        ].map<DropdownMenuItem<String>>((String value) {
+        items:
+            escolaridadeOptions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -150,25 +187,29 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
   }
 
   Widget _buildMaritalStatus() {
+    List<String> maritalStatusOptions = [
+      "Estado Civil",
+      'União estável',
+      'Casado(a)',
+      'Solteiro(a) / Não casado(a)',
+      'Separado(a)',
+      'Viúvo(a)'
+    ];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
         value: dropdownValue1,
-        items: <String>[
-          'Estado Civil',
-          'União estável',
-          'Casado(a)',
-          'Solteiro(a) / Não casado(a)',
-          'Separado(a)',
-          'Viúvo(a)'
-        ].map<DropdownMenuItem<String>>((String value) {
+        items:
+            maritalStatusOptions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -182,19 +223,27 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
   }
 
   Widget _buildChildren() {
+    List<String> childrenOptions = [
+      "Filhos",
+      '0',
+      '1',
+      '2',
+      '3 ou mais'
+    ];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
         value: dropdownValue2,
-        items: <String>['Filhos', '0', '1', '2', '3 ou mais']
-            .map<DropdownMenuItem<String>>((String value) {
+        items: childrenOptions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -240,7 +289,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Informe seus dados pessoais.',
+                      'Atualize seus dados pessoais.',
                       style: GoogleFonts.dmSans(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -295,7 +344,7 @@ class _ClientAnalysisOnePageState extends State<ClientAnalysisOnePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ClientAnalysisSecondPage(
+                                                UpdateClientSecondPage(
                                                   client: Client(
                                                       nome: _nomeController.text
                                                           .trim(),

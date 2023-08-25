@@ -5,41 +5,73 @@ import 'package:flutter/material.dart';
 
 import '../firebase/firebase_auth.dart';
 import '../firebase/firebase_service.dart';
-import 'clientAnalysisOnePage.dart';
+import 'updateClientOnePage.dart';
 
-class ClientAnalysisThirdPage extends StatefulWidget {
+class UpdateClientThirdPage extends StatefulWidget {
   final Client client;
 
-  ClientAnalysisThirdPage({required this.client});
+  UpdateClientThirdPage({required this.client});
 
   @override
-  _ClientAnalysisThirdPageState createState() =>
-      _ClientAnalysisThirdPageState();
+  _UpdateClientThirdPageState createState() => _UpdateClientThirdPageState();
 }
 
-class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
+class _UpdateClientThirdPageState extends State<UpdateClientThirdPage> {
   final FirebaseService firebaseService = FirebaseService();
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  String emailClient = '';
+  final TextEditingController _temEmpregoController = TextEditingController();
+  final TextEditingController _temOcupacaoController = TextEditingController();
   final TextEditingController _rendimentoAnualController =
       TextEditingController();
 
   AuthService authService = AuthService();
 
+  @override
+  void initState() {
+    super.initState();
+    _performRequests(widget.client.email);
+  }
+
+  Future<void> _performRequests(email) async {
+    try {
+      String email = widget.client.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          _temEmpregoController.text = client['tem_emprego'];
+          _temOcupacaoController.text = client['ocupacao'];
+          _rendimentoAnualController.text = client['rendimento_anual'];
+          emailClient = email;
+        });
+      } else {
+        print('Usuário não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter usuário: $e');
+    }
+  }
+
   Widget _buildJobStatus() {
+    List<String> jobStatusOptions = ['Tem emprego?', 'Sim', 'Não'];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
         value: dropdownValue1,
-        items: <String>['Tem emprego?', 'Sim', 'Não']
-            .map<DropdownMenuItem<String>>((String value) {
+        items: jobStatusOptions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -53,38 +85,41 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
   }
 
   Widget _buildJob() {
+    List<String> jobOptions = [
+      'Ocupação',
+      'Segurança',
+      'Equipe de Vendas',
+      'Contadores',
+      'Trabalhadores',
+      'Gerentes',
+      'Motoristas',
+      'Equipe Principal',
+      'Equipe Técnica de Alta Qualificação',
+      'Equipe de Limpeza',
+      'Equipe de Serviço Privado',
+      'Equipe de Cozinha',
+      'Trabalhadores de Baixa Qualificação',
+      'Equipe de Medicina',
+      'Secretárias',
+      'Equipe de Garçons/Barmen',
+      'Equipe de Recursos Humanos',
+      'Agentes Imobiliários',
+      'Equipe de TI'
+    ];
+
     return Container(
       width: double.infinity,
       child: DropdownButton<String>(
-        autofocus: true,
         value: dropdownValue2,
-        items: <String>[
-          'Ocupação',
-          'Segurança',
-          'Equipe de Vendas',
-          'Contadores',
-          'Trabalhadores',
-          'Gerentes',
-          'Motoristas',
-          'Equipe Principal',
-          'Equipe Técnica de Alta Qualificação',
-          'Equipe de Limpeza',
-          'Equipe de Serviço Privado',
-          'Equipe de Cozinha',
-          'Trabalhadores de Baixa Qualificação',
-          'Equipe de Medicina',
-          'Secretárias',
-          'Equipe de Garçons/Barmen',
-          'Equipe de Recursos Humanos',
-          'Agentes Imobiliários',
-          'Equipe de TI'
-        ].map<DropdownMenuItem<String>>((String value) {
+        items: jobOptions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
               value,
               style: const TextStyle(
-                  color: Color.fromRGBO(30, 30, 30, 100), fontSize: 15),
+                color: Color.fromRGBO(30, 30, 30, 100),
+                fontSize: 15,
+              ),
             ),
           );
         }).toList(),
@@ -151,7 +186,7 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
       'email': email
     };
 
-    await firebaseService.addClient(userData);
+    await firebaseService.updateClientByEmail(email, userData);
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -184,7 +219,7 @@ class _ClientAnalysisThirdPageState extends State<ClientAnalysisThirdPage> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Informe seus dados financeiros.',
+                      'Atualize seus dados financeiros.',
                       style: GoogleFonts.dmSans(
                         color: Colors.black,
                         fontSize: 20.0,

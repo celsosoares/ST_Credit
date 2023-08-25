@@ -2,7 +2,6 @@ import 'package:st_credit/pages/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'clientInfo.dart';
 import 'homeAnalyst.dart';
 
 class InitialPage extends StatefulWidget {

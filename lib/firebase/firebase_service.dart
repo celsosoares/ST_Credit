@@ -60,4 +60,38 @@ class FirebaseService {
       print('Erro ao cadastrar cliente: $e');
     }
   }
+
+  Future<Map<String, dynamic>?> getClientByEmail(String email) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await clientsCollection.where('email', isEqualTo: email).get();
+      if (querySnapshot.size > 0) {
+        DocumentSnapshot docSnapshot = querySnapshot.docs[0];
+        return docSnapshot.data() as Map<String, dynamic>;
+      } else {
+        print('Cliente não encontrado.');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao obter cliente: $e');
+      return null;
+    }
+  }
+
+  Future<void> updateClientByEmail(String email, Map<String, dynamic> updatedData) async {
+  try {
+    QuerySnapshot querySnapshot = await clientsCollection.where('email', isEqualTo: email).get();
+    
+    if (querySnapshot.size == 1) {
+      String clientId = querySnapshot.docs[0].id;
+      await clientsCollection.doc(clientId).update(updatedData);
+      print('Cliente atualizado com sucesso!');
+    } else {
+      print('Cliente não encontrado ou múltiplos clientes encontrados com o mesmo email.');
+    }
+  } catch (e) {
+    print('Erro ao atualizar cliente: $e');
+  }
+}
+
 }

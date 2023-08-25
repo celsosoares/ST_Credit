@@ -28,7 +28,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -90,7 +90,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               padding: const EdgeInsets.all(30),
               child:  Column(
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text("Histórico de análise")
                     ],
@@ -98,7 +98,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                   const SizedBox(height: 20),
                   DonutChart(),
                   const SizedBox(height: 20),
-                  const Row(
+                  Row(
                     children: [
                       Text("Todos"),
                       SizedBox(width: 20),
