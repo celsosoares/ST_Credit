@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/AnalysisDone.dart';
+import 'package:st_credit/pages/analystRequests.dart';
 
 import 'initialPage.dart';
 
@@ -18,16 +19,12 @@ class _ClientInfoState extends State<ClientInfo>{
         leading:  IconButton(
           icon: const Icon(Icons.arrow_back),
           color: Colors.black,
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      InitialPage())),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.white,
       ),
       body:  Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,

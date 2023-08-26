@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
+import 'package:st_credit/pages/analystRequests.dart';
+
+import 'clientInfo.dart';
 
 class HomeAnalyst extends StatefulWidget{
 
@@ -25,11 +28,11 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
                           'Solicitações abertas',
@@ -43,7 +46,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           "02",
-                          style: const TextStyle(
+                          style:  TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w800),
@@ -51,22 +54,26 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                       ),
                     ],
                   ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "+",
-                        style: TextStyle(
-                            color: Color(0xFF2A64D9),
-                            fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AnalystRequests()));
+                    },
+                    child:  Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Icon(Icons.search),
                       ),
                     ),
-                  ),
+                  )
+
                 ],
               ),
             ),
@@ -80,18 +87,18 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),
                   )),
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child:  Column(
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Text("Histórico de análise")
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   DonutChart(),
-                  SizedBox(height: 20),
-                  Row(
+                  const SizedBox(height: 20),
+                  const Row(
                     children: [
                       Text("Todos"),
                       SizedBox(width: 20),
@@ -100,7 +107,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                       Text("Negados")
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,11 +129,19 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text("Carlos Silva")
+                          const SizedBox(width: 10),
+                          const Text("Carlos Silva")
                         ],
                       ),
-                      Text("Acessar")
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ClientInfo()));
+                        },
+                        child: const Text("Acessar", style: TextStyle(fontWeight: FontWeight.bold),),
+                      )
                     ],
                   ),
                   SizedBox(height: 20),
@@ -155,7 +170,15 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                           Text("Lucas Morais")
                         ],
                       ),
-                      Text("Acessar")
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ClientInfo()));
+                        },
+                        child: const Text("Acessar", style: TextStyle(fontWeight: FontWeight.bold),),
+                      )
                     ],
                   ),
                 const SizedBox(height: 20)
@@ -184,7 +207,15 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                           Text("João Manoel")
                         ],
                       ),
-                      Text("Acessar")
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ClientInfo()));
+                        },
+                        child: const Text("Acessar", style: TextStyle(fontWeight: FontWeight.bold),),
+                      )
                     ],
                   ),
                 ],
