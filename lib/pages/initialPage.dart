@@ -2,6 +2,9 @@ import 'package:st_credit/pages/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'clientInfo.dart';
+import 'homeAnalyst.dart';
+
 class InitialPage extends StatefulWidget {
   @override
   _InitialPageState createState() => _InitialPageState();
@@ -80,7 +83,7 @@ class _InitialPageState extends State<InitialPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignInPage()));
+                              builder: (context) => HomeAnalyst()));
                     },
                   ),
                 ),
