@@ -1,5 +1,6 @@
 import 'package:st_credit/pages/faqPage.dart';
 import 'package:st_credit/pages/statusPage.dart';
+import 'package:st_credit/pages/updateClientOnePage.dart';
 import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/clientAnalysisOnePage.dart';
@@ -23,6 +24,7 @@ class _HomeUserState extends State<HomeUser> {
   String emailUsuario = '';
   String perfilUsuario = '';
   String idUsuario = '';
+  String emailClient = '';
   int _currentIndex = 0;
   AuthService authService = AuthService();
 
@@ -31,10 +33,11 @@ class _HomeUserState extends State<HomeUser> {
   @override
   void initState() {
     super.initState();
-    _performRequests();
+    _performRequestsUser();
+    _performRequestsClient();
   }
 
-  Future<void> _performRequests() async {
+  Future<void> _performRequestsUser() async {
     try {
       String email = widget.email;
 
@@ -52,6 +55,25 @@ class _HomeUserState extends State<HomeUser> {
       }
     } catch (e) {
       print('Erro ao obter usuário: $e');
+    }
+  }
+
+  Future<void> _performRequestsClient() async {
+    try {
+      String email = widget.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          emailClient = client['email'];
+        });
+      } else {
+        print('Cliente não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter cliente: $e');
     }
   }
 
@@ -142,11 +164,20 @@ class _HomeUserState extends State<HomeUser> {
                                 Border.all(color: Colors.grey, width: 0.10)),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ClientAnalysisOnePage(email: emailUsuario)));
+                            if (emailClient != "") {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpdateClientOnePage(
+                                          email: emailClient)));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ClientAnalysisOnePage(
+                                              email: emailUsuario)));
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF7F8F9)),
