@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
 import 'package:st_credit/pages/analystRequests.dart';
 
+import '../firebase/firebase_auth.dart';
 import 'clientInfo.dart';
 
 class HomeAnalyst extends StatefulWidget{
@@ -14,6 +15,7 @@ class HomeAnalyst extends StatefulWidget{
 class _HomeAnalystState extends State<HomeAnalyst>{
 
   int _currentIndex = 0;
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context){
@@ -226,6 +228,21 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeAnalyst()),
+            );
+          } else {
+            authService.logoutAndNavigateToHome(context);
+          }
+        },
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const [
