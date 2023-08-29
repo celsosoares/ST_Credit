@@ -47,7 +47,7 @@ class _HomeUserState extends State<HomeUser> {
 
       if (user != null) {
         setState(() {
-          nomeUsuario = user['nome'];
+          nomeUsuario = Utils().getName(user['nome']);
           emailUsuario = user['email'];
           perfilUsuario = user['perfil'];
           idUsuario = user['id'];
