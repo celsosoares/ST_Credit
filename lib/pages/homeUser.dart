@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../firebase/firebase_service.dart';
 import '../firebase/firebase_auth.dart';
+import '../utils/utils.dart';
 
 class HomeUser extends StatefulWidget {
   final String email;
@@ -21,6 +22,7 @@ class HomeUser extends StatefulWidget {
 
 class _HomeUserState extends State<HomeUser> {
   String nomeUsuario = '';
+  String initials = '';
   String emailUsuario = '';
   String perfilUsuario = '';
   String idUsuario = '';
@@ -49,6 +51,7 @@ class _HomeUserState extends State<HomeUser> {
           emailUsuario = user['email'];
           perfilUsuario = user['perfil'];
           idUsuario = user['id'];
+          initials = Utils().getNameInitials(user['nome']);
         });
       } else {
         print('Usuário não encontrado.');
@@ -123,10 +126,10 @@ class _HomeUserState extends State<HomeUser> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        "CM",
-                        style: TextStyle(
+                        initials,
+                        style: const TextStyle(
                             color: Color(0xFF2A64D9),
                             fontWeight: FontWeight.w600),
                       ),
