@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
+import 'package:st_credit/firebase/firebase_service.dart';
+import 'package:st_credit/firebase/getAllAnalysisWidget.dart';
 import 'package:st_credit/pages/analystRequests.dart';
+import 'package:st_credit/utils/utils.dart';
 
 import '../firebase/firebase_auth.dart';
 import 'clientInfo.dart';
 
 class HomeAnalyst extends StatefulWidget{
 
+  final List<Map<String, dynamic>> data;
+  HomeAnalyst({required this.data});
   @override
-  _HomeAnalystState createState() => _HomeAnalystState();
+  _HomeAnalystState createState() => _HomeAnalystState(data: data);
 }
 
 class _HomeAnalystState extends State<HomeAnalyst>{
 
   int _currentIndex = 0;
   AuthService authService = AuthService();
-
+  final List<Map<String, dynamic>> data;
+  _HomeAnalystState({required this.data});
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -34,7 +40,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Padding(
+                       const Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
                           'Solicitações abertas',
@@ -47,8 +53,8 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                       Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          "02",
-                          style:  TextStyle(
+                          data.length.toString(),
+                          style:  const TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w800),
@@ -75,7 +81,6 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                       ),
                     ),
                   )
-
                 ],
               ),
             ),
@@ -92,7 +97,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               padding: const EdgeInsets.all(30),
               child:  Column(
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Text("Histórico de análise")
                     ],
@@ -100,7 +105,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                   const SizedBox(height: 20),
                   DonutChart(),
                   const SizedBox(height: 20),
-                  Row(
+                  const Row(
                     children: [
                       Text("Todos"),
                       SizedBox(width: 20),
@@ -122,17 +127,17 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                               color: const Color(0xffE2E2E2),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                "CS",
-                                style: TextStyle(
+                                Utils().getNameInitials(Utils().JoinNameAndSurname(data[0]['nome'], data[0]['sobrenome'])),
+                                style: const TextStyle(
                                     color: Color(0xFF2A64D9),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
                           const SizedBox(width: 10),
-                          const Text("Carlos Silva")
+                          Text(Utils().JoinNameAndSurname(data[0]['nome'], data[0]['sobrenome']))
                         ],
                       ),
                       GestureDetector(
@@ -146,7 +151,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -159,17 +164,17 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                               color: const Color(0xffE2E2E2),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                "LM",
-                                style: TextStyle(
+                                Utils().getNameInitials(Utils().JoinNameAndSurname(data[1]['nome'], data[1]['sobrenome'])),
+                                style: const TextStyle(
                                     color: Color(0xFF2A64D9),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text("Lucas Morais")
+                          const SizedBox(width: 10),
+                           Text(Utils().JoinNameAndSurname(data[1]['nome'], data[1]['sobrenome']))
                         ],
                       ),
                       GestureDetector(
@@ -196,17 +201,17 @@ class _HomeAnalystState extends State<HomeAnalyst>{
                               color: const Color(0xffE2E2E2),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                "JM",
-                                style: TextStyle(
+                                Utils().getNameInitials(Utils().JoinNameAndSurname(data[2]['nome'], data[2]['sobrenome'])),
+                                style: const TextStyle(
                                     color: Color(0xFF2A64D9),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text("João Manoel")
+                          const SizedBox(width: 10),
+                          Text(Utils().JoinNameAndSurname(data[2]['nome'], data[2]['sobrenome']))
                         ],
                       ),
                       GestureDetector(
@@ -237,7 +242,7 @@ class _HomeAnalystState extends State<HomeAnalyst>{
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HomeAnalyst()),
+                      GetAllAnalysisWidget()),
             );
           } else {
             authService.logoutAndNavigateToHome(context);

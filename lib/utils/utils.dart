@@ -43,4 +43,13 @@ class Utils{
    String NameUser = initialsBuffer.toString();
    return NameUser;
  }
+
+ String JoinNameAndSurname(String name, String surname){
+   StringBuffer completeNameBuffer = StringBuffer();
+   completeNameBuffer.write(name);
+   completeNameBuffer.write(' ');
+   completeNameBuffer.write(surname);
+   String completeName = completeNameBuffer.toString();
+    return completeName;
+ }
 }

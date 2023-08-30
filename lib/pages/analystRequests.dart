@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:st_credit/firebase/getAllAnalysisWidget.dart';
 import 'package:st_credit/pages/clientInfo.dart';
 import 'package:st_credit/pages/homeAnalyst.dart';
 
@@ -23,7 +24,7 @@ class _AnalystRequestsState extends State<AnalystRequests>{
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HomeAnalyst())),
+                      GetAllAnalysisWidget())),
         ),
         backgroundColor: Colors.white,
       ),

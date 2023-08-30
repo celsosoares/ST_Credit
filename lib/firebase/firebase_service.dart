@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../pages/homeAnalyst.dart';
 
 class FirebaseService {
   final CollectionReference usersCollection =
@@ -94,4 +98,12 @@ class FirebaseService {
   }
 }
 
+  Future<List<Map<String, dynamic>>> getAllAnalysis() async {
+
+    QuerySnapshot snapshot = await clientsCollection.get();
+    List<Map<String, dynamic>> documents = snapshot.docs.map((doc) {
+      return doc.data() as Map<String, dynamic>;
+    }).toList();
+    return documents;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:st_credit/firebase/getAllAnalysisWidget.dart';
 import 'package:st_credit/pages/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -82,7 +83,7 @@ class _InitialPageState extends State<InitialPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HomeAnalyst()));
+                              builder: (context) => GetAllAnalysisWidget()));
                     },
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:st_credit/firebase/getAllAnalysisWidget.dart';
 
 import 'homeAnalyst.dart';
 
@@ -62,7 +63,7 @@ class _AnalysisDone extends State<AnalysisDoneAnalist> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeAnalyst()));
+                                builder: (context) => GetAllAnalysisWidget()));
                       },
                       child: const Text('Voltar para tela Home')),
                 ),
