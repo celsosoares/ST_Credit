@@ -1,13 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:st_credit/firebase/firebase_auth.dart';
+import 'package:st_credit/firebase/firebase_service.dart';
 import 'package:st_credit/pages/analysisDoneAnalist.dart';
 
-
 class ClientInfo extends StatefulWidget {
+  final String email;
+
+  ClientInfo({required this.email});
   @override
   _ClientInfoState createState() => _ClientInfoState();
 }
 
 class _ClientInfoState extends State<ClientInfo> {
+  String nomeClient = '';
+  String sobrenomeClient = '';
+  String idadeClient = '';
+  String estadoCivilClient = '';
+  String escolaridadeClient = '';
+  String filhosClient = '';
+  String temCarroClient = '';
+  String temPropriedadeClient = '';
+  String tipoMoradiaClient = '';
+  String rendimentoAnualClient = '';
+  String emailClient = '';
+  AuthService authService = AuthService();
+
+  final FirebaseService firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _performRequestsClient();
+  }
+
+  Future<void> _performRequestsClient() async {
+    try {
+      String email = widget.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          nomeClient = client['nome'] != null ? client['nome'] : "";
+          sobrenomeClient =
+              client['sobrenome'] != null ? client['sobrenome'] : "";
+          idadeClient = client['idade'] != null ? client['idade'] : "";
+          estadoCivilClient =
+              client['estado_civil'] != null ? client['estado_civil'] : "";
+          escolaridadeClient =
+              client['escolaridade'] != null ? client['escolaridade'] : "";
+          filhosClient = client['filhos'] != null ? client['filhos'] : "";
+          temCarroClient =
+              client['tem_carro'] != null ? client['tem_carro'] : "";
+          temPropriedadeClient = client['tem_propriedade'] != null
+              ? client['tem_propriedade']
+              : "";
+          tipoMoradiaClient =
+              client['tipo_moradia'] != null ? client['tipo_moradia'] : "";
+          rendimentoAnualClient = client['rendimento_anual'] != null
+              ? client['rendimento_anual']
+              : "";
+          emailClient = client['email'];
+        });
+      } else {
+        print('Cliente não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter cliente: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +103,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "Carla",
+                        nomeClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -54,7 +117,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "Marques",
+                        sobrenomeClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -76,7 +139,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "25 anos",
+                        idadeClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -90,7 +153,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "casada",
+                        estadoCivilClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -104,7 +167,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "Superior",
+                        escolaridadeClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -118,7 +181,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "0",
+                        filhosClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -141,7 +204,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "sim",
+                        temCarroClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -155,7 +218,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "sim",
+                        temPropriedadeClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -169,7 +232,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "-",
+                        tipoMoradiaClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
@@ -206,7 +269,7 @@ class _ClientInfoState extends State<ClientInfo> {
                         style: TextStyle(color: Color(0xff979797)),
                       ),
                       Text(
-                        "-",
+                        rendimentoAnualClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],

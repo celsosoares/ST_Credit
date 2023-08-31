@@ -78,20 +78,60 @@ class FirebaseService {
     }
   }
 
-  Future<void> updateClientByEmail(String email, Map<String, dynamic> updatedData) async {
-  try {
-    QuerySnapshot querySnapshot = await clientsCollection.where('email', isEqualTo: email).get();
-    
-    if (querySnapshot.size == 1) {
-      String clientId = querySnapshot.docs[0].id;
-      await clientsCollection.doc(clientId).update(updatedData);
-      print('Cliente atualizado com sucesso!');
-    } else {
-      print('Cliente não encontrado ou múltiplos clientes encontrados com o mesmo email.');
-    }
-  } catch (e) {
-    print('Erro ao atualizar cliente: $e');
-  }
-}
+  Future<void> updateClientByEmail(
+      String email, Map<String, dynamic> updatedData) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await clientsCollection.where('email', isEqualTo: email).get();
 
+      if (querySnapshot.size == 1) {
+        String clientId = querySnapshot.docs[0].id;
+        await clientsCollection.doc(clientId).update(updatedData);
+        print('Cliente atualizado com sucesso!');
+      } else {
+        print(
+            'Cliente não encontrado ou múltiplos clientes encontrados com o mesmo email.');
+      }
+    } catch (e) {
+      print('Erro ao atualizar cliente: $e');
+    }
+  }
+
+  Future<int> getClientsInAnalysisCount() async {
+    try {
+      QuerySnapshot querySnapshot = await clientsCollection
+          .where('status', isEqualTo: 'em analise')
+          .get();
+      return querySnapshot.size;
+    } catch (e) {
+      print('Erro ao obter a contagem de clientes em análise: $e');
+      return 0;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getClientsInAnalysis() async {
+    try {
+      QuerySnapshot querySnapshot = await clientsCollection
+          .where('status', isEqualTo: 'em analise')
+          .get();
+
+      List<Map<String, dynamic>> clients = [];
+      querySnapshot.docs.forEach((doc) {
+        clients.add(doc.data() as Map<String, dynamic>);
+      });
+
+      return clients;
+    } catch (e) {
+      print('Erro ao obter clientes em análise: $e');
+      return [];
+    }
+  }
+
+  List<Map<String, dynamic>> filterClientsByName(
+      List<Map<String, dynamic>> clients, String query) {
+    return clients.where((client) {
+      final nome = client['nome'].toLowerCase();
+      return nome.contains(query.toLowerCase());
+    }).toList();
+  }
 }
