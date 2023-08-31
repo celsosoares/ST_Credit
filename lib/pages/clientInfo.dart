@@ -71,6 +71,12 @@ class _ClientInfoState extends State<ClientInfo> {
     }
   }
 
+  void sendStatus(status, email) async {
+    Map<String, dynamic> userData = {'status': status, 'email': email};
+
+    await firebaseService.updateClientByEmail(email, userData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -291,24 +297,62 @@ class _ClientInfoState extends State<ClientInfo> {
                 ],
               ),
               const SizedBox(height: 50),
-              Container(
-                height: 45.0,
-                width: 430.0,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 57, 115, 240),
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 12.0,
-                        )),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AnalysisDoneAnalist()));
-                    },
-                    child: const Text('Realizar Análise')),
+              Column(
+                children: [
+                  SizedBox(height: 50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: 45.0,
+                        width: 200.0,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 57, 115, 240),
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          onPressed: () {
+                            sendStatus("aprovado", emailClient);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AnalysisDoneAnalist()));
+                          },
+                          child: const Text('Aprovar'),
+                        ),
+                      ),
+                      Container(
+                        height: 45.0,
+                        width: 200.0,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.red, // Cor para o botão de "Negar"
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          onPressed: () {
+                            sendStatus("negado", emailClient);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AnalysisDoneAnalist()));
+                          },
+                          child: const Text('Negar'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               )
             ],
           ),
