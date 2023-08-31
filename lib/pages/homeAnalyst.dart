@@ -3,7 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
+import 'package:st_credit/pages/allRequests.dart';
 import 'package:st_credit/pages/analystRequests.dart';
+import 'package:st_credit/pages/approvedRequests.dart';
+import 'package:st_credit/pages/deniedRequests.dart';
 
 class HomeAnalyst extends StatefulWidget {
   @override
@@ -105,18 +108,68 @@ class _HomeAnalystState extends State<HomeAnalyst> {
               child: Column(
                 children: [
                   Row(
-                    children: [Text("Histórico de análise")],
+                    children: [
+                      Text("Histórico de análise"),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   DonutChart(),
                   const SizedBox(height: 20),
                   Row(
                     children: [
-                      Text("Todos"),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AllRequests()));
+                          },
+                          child: Text(
+                            "Todos",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 20),
-                      Text("Aprovados"),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ApprovedRequests()));
+                          },
+                          child: Text(
+                            "Aprovados",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 20),
-                      Text("Negados")
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DeniedRequests()));
+                          },
+                          child: Text(
+                            "Negados",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -247,6 +300,12 @@ class _HomeAnalystState extends State<HomeAnalyst> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          authService.logoutAndNavigateToHome(context);
+        },
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const [

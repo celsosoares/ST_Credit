@@ -97,6 +97,23 @@ class FirebaseService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getAllClients() async {
+  try {
+    QuerySnapshot querySnapshot = await clientsCollection.get();
+
+    List<Map<String, dynamic>> clients = [];
+    querySnapshot.docs.forEach((doc) {
+      clients.add(doc.data() as Map<String, dynamic>);
+    });
+
+    return clients;
+  } catch (e) {
+    print('Erro ao obter clientes: $e');
+    return [];
+  }
+}
+
+
   Future<int> getClientsInAnalysisCount() async {
     try {
       QuerySnapshot querySnapshot = await clientsCollection
@@ -123,6 +140,42 @@ class FirebaseService {
       return clients;
     } catch (e) {
       print('Erro ao obter clientes em análise: $e');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getClientsApproved() async {
+    try {
+      QuerySnapshot querySnapshot = await clientsCollection
+          .where('status', isEqualTo: 'aprovado')
+          .get();
+
+      List<Map<String, dynamic>> clients = [];
+      querySnapshot.docs.forEach((doc) {
+        clients.add(doc.data() as Map<String, dynamic>);
+      });
+
+      return clients;
+    } catch (e) {
+      print('Erro ao obter clientes aprovados: $e');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getClientsDenied() async {
+    try {
+      QuerySnapshot querySnapshot = await clientsCollection
+          .where('status', isEqualTo: 'negado')
+          .get();
+
+      List<Map<String, dynamic>> clients = [];
+      querySnapshot.docs.forEach((doc) {
+        clients.add(doc.data() as Map<String, dynamic>);
+      });
+
+      return clients;
+    } catch (e) {
+      print('Erro ao obter clientes negados: $e');
       return [];
     }
   }
