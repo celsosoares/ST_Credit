@@ -5,8 +5,11 @@ import 'package:st_credit/firebase/firebase_service.dart';
 import 'package:st_credit/firebase/getAllAnalysisWidget.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
+import 'package:st_credit/pages/allRequests.dart';
 import 'package:st_credit/pages/analystRequests.dart';
 import 'package:st_credit/utils/utils.dart';
+import 'package:st_credit/pages/approvedRequests.dart';
+import 'package:st_credit/pages/deniedRequests.dart';
 
 import '../firebase/firebase_auth.dart';
 import 'clientInfo.dart';
@@ -112,9 +115,9 @@ class _HomeAnalystState extends State<HomeAnalyst> {
               padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     children: [
-                      Text("Histórico de análise")
+                      Text("Histórico de análise"),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -122,11 +125,59 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                   const SizedBox(height: 20),
                   const Row(
                     children: [
-                      Text("Todos"),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AllRequests()));
+                          },
+                          child: Text(
+                            "Todos",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 20),
-                      Text("Aprovados"),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ApprovedRequests()));
+                          },
+                          child: Text(
+                            "Aprovados",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 20),
-                      Text("Negados")
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DeniedRequests()));
+                          },
+                          child: Text(
+                            "Negados",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),

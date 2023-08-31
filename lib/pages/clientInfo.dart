@@ -23,6 +23,7 @@ class _ClientInfoState extends State<ClientInfo> {
   String tipoMoradiaClient = '';
   String rendimentoAnualClient = '';
   String emailClient = '';
+  String statusClient = '';
   AuthService authService = AuthService();
 
   final FirebaseService firebaseService = FirebaseService();
@@ -61,6 +62,7 @@ class _ClientInfoState extends State<ClientInfo> {
           rendimentoAnualClient = client['rendimento_anual'] != null
               ? client['rendimento_anual']
               : "";
+          statusClient = client['status'] != null ? client['status'] : "";
           emailClient = client['email'];
         });
       } else {
@@ -290,6 +292,20 @@ class _ClientInfoState extends State<ClientInfo> {
                       ),
                       Text(
                         "-",
+                        style: TextStyle(color: Color(0xff414141)),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Status",
+                        style: TextStyle(color: Color(0xff979797)),
+                      ),
+                      Text(
+                        statusClient,
                         style: TextStyle(color: Color(0xff414141)),
                       )
                     ],
