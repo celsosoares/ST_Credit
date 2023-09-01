@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/updateClientOnePage.dart';
-import 'package:st_credit/pages/updateClientThirdPage.dart';
+import 'package:st_credit/pages/user/updateClientOnePage.dart';
+import 'package:st_credit/pages/user/updateClientThirdPage.dart';
 
-import '../firebase/firebase_auth.dart';
-import '../firebase/firebase_service.dart';
+import '../../firebase/firebase_auth.dart';
+import '../../firebase/firebase_service.dart';
 
 class UpdateClientSecondPage extends StatefulWidget {
   final Client client;

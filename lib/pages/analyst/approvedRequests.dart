@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
-import 'package:st_credit/pages/clientInfo.dart';
-import 'package:st_credit/pages/homeAnalyst.dart';
+import 'package:st_credit/pages/analyst/clientInfo.dart';
+import 'package:st_credit/pages/analyst/homeAnalyst.dart';
 
-class AllRequests extends StatefulWidget {
+class ApprovedRequests extends StatefulWidget {
   @override
-  _AllRequestsState createState() => _AllRequestsState();
+  _ApprovedRequestsState createState() => _ApprovedRequestsState();
 }
 
-class _AllRequestsState extends State<AllRequests> {
+class _ApprovedRequestsState extends State<ApprovedRequests> {
   final FirebaseService firebaseService = FirebaseService();
   TextEditingController _searchController = TextEditingController();
   List<Map<String, dynamic>> filteredClients = [];
@@ -18,7 +18,7 @@ class _AllRequestsState extends State<AllRequests> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(
-          child: Text("Todos", style: TextStyle(color: Colors.black)),
+          child: Text("Aprovados", style: TextStyle(color: Colors.black)),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -47,18 +47,17 @@ class _AllRequestsState extends State<AllRequests> {
           ),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: firebaseService.getAllClients(),
+              future: firebaseService.getClientsApproved(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
-                      child: Text('Erro ao obter os clientes.'));
+                      child: Text('Erro ao obter os clientes aprovados.'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
-                      child: Text('Nenhum cliente em análise.'));
+                      child: Text('Nenhum cliente em análise aprovado.'));
                 } else {
-                  // Filtrar os clientes com base no valor do TextField
                   List<Map<String, dynamic>> clients = snapshot.data!;
                   if (_searchController.text.isNotEmpty) {
                     clients = firebaseService.filterClientsByName(

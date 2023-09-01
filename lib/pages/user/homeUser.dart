@@ -1,14 +1,14 @@
-import 'package:st_credit/pages/faqPage.dart';
-import 'package:st_credit/pages/statusPage.dart';
-import 'package:st_credit/pages/updateClientOnePage.dart';
-import 'package:st_credit/pages/userHistory.dart';
+import 'package:st_credit/pages/user/faqPage.dart';
+import 'package:st_credit/pages/user/statusPage.dart';
+import 'package:st_credit/pages/user/updateClientOnePage.dart';
+import 'package:st_credit/pages/user/userHistory.dart';
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/clientAnalysisOnePage.dart';
+import 'package:st_credit/pages/user/clientAnalysisOnePage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/utils/utils.dart';
 
-import '../firebase/firebase_service.dart';
-import '../firebase/firebase_auth.dart';
+import '../../firebase/firebase_service.dart';
+import '../../firebase/firebase_auth.dart';
 
 class HomeUser extends StatefulWidget {
   final String email;

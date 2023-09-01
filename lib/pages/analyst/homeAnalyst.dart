@@ -3,10 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
-import 'package:st_credit/pages/allRequests.dart';
-import 'package:st_credit/pages/analystRequests.dart';
-import 'package:st_credit/pages/approvedRequests.dart';
-import 'package:st_credit/pages/deniedRequests.dart';
+import 'package:st_credit/pages/analyst/allRequests.dart';
+import 'package:st_credit/pages/analyst/analystRequests.dart';
+import 'package:st_credit/pages/analyst/approvedRequests.dart';
+import 'package:st_credit/pages/analyst/deniedRequests.dart';
 
 class HomeAnalyst extends StatefulWidget {
   @override
@@ -126,12 +126,20 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => AllRequests()));
                           },
-                          child: Text(
-                            "Todos",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Todos",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
                       SizedBox(width: 20),
@@ -144,15 +152,23 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => ApprovedRequests()));
                           },
-                          child: Text(
-                            "Aprovados",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Aprovados",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
@@ -162,17 +178,32 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => DeniedRequests()));
                           },
-                          child: Text(
-                            "Negados",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Negados",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
+                  const Center(
+                    child: Text('Análises Recentes',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16)),
+                  ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -212,7 +243,7 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -252,7 +283,7 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

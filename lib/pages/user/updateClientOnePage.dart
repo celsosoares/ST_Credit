@@ -1,8 +1,8 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:st_credit/pages/updateClientSecondPage.dart';
-import '../firebase/firebase_auth.dart';
-import '../firebase/firebase_service.dart';
+import 'package:st_credit/pages/user/updateClientSecondPage.dart';
+import '../../firebase/firebase_auth.dart';
+import '../../firebase/firebase_service.dart';
 
 class Client {
   final String nome;

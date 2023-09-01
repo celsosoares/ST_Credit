@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/clientAnalysisSecondPage.dart';
+import 'package:st_credit/pages/user/clientAnalysisSecondPage.dart';
 import 'package:flutter/material.dart';
-import '../firebase/firebase_auth.dart';
-import '../firebase/firebase_service.dart';
+import '../../firebase/firebase_auth.dart';
+import '../../firebase/firebase_service.dart';
 
 class Client {
   final String nome;

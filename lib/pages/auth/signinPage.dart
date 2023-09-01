@@ -1,6 +1,6 @@
-import 'package:st_credit/pages/homeUser.dart';
+import 'package:st_credit/pages/user/homeUser.dart';
 import 'package:st_credit/pages/initialPage.dart';
-import 'package:st_credit/pages/signupPage.dart';
+import 'package:st_credit/pages/auth/signupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';

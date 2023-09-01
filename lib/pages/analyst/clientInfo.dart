@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
-import 'package:st_credit/pages/analysisDoneAnalist.dart';
+import 'package:st_credit/pages/analyst/analysisDoneAnalist.dart';
 
 class ClientInfo extends StatefulWidget {
   final String email;
