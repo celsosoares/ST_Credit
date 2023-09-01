@@ -187,4 +187,13 @@ class FirebaseService {
       return nome.contains(query.toLowerCase());
     }).toList();
   }
+
+  Future<List<Map<String, dynamic>>> getAllAnalysis() async {
+
+    QuerySnapshot snapshot = await clientsCollection.get();
+    List<Map<String, dynamic>> documents = snapshot.docs.map((doc) {
+      return doc.data() as Map<String, dynamic>;
+    }).toList();
+    return documents;
+  }
 }
