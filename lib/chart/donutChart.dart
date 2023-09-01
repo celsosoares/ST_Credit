@@ -1,14 +1,41 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../firebase/firebase_service.dart';
+
 class DonutChart extends StatefulWidget {
   const DonutChart({Key? key}) : super(key: key);
-
   @override
   State<DonutChart> createState() => _DonutChartState();
 }
 
 class _DonutChartState extends State<DonutChart> {
+
+  int qtdClientsApproved = 0;
+  int qtdClientsDenied =0;
+  final FirebaseService firebaseService = FirebaseService();
+
+  Future<void> qtdAnalysisApproved() async {
+    List<Map<String, dynamic>> qtdAprovved = await firebaseService.getClientsApproved();
+    setState(() {
+      qtdClientsApproved = qtdAprovved.length;
+    });
+  }
+
+  Future<void> qtdAnalysisDenied() async {
+    List<Map<String, dynamic>> qtdDenied = await firebaseService.getClientsDenied();
+    setState(() {
+      qtdClientsDenied = qtdDenied.length;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    qtdAnalysisApproved();
+    qtdAnalysisDenied();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Row(
@@ -21,14 +48,14 @@ class _DonutChartState extends State<DonutChart> {
               startDegreeOffset: -90,
               sections:[
                 PieChartSectionData(
-                    value: 75,
+                    value: qtdClientsApproved.toDouble(),
                     radius: 30,
                     showTitle: false,
                     color: Colors.blue,
                     title: 'Aprovados'
                 ),
                 PieChartSectionData(
-                    value: 25,
+                    value: qtdClientsDenied.toDouble(),
                     radius: 30,
                     showTitle: false,
                     color: Colors.red,
@@ -43,8 +70,8 @@ class _DonutChartState extends State<DonutChart> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLegend(color: Colors.blue, label: 'Aprovados'),
-            _buildLegend(color: Colors.red, label: 'Negados')
+            _buildLegend(color: Colors.blue, label: 'Aprovados', value: qtdClientsApproved),
+            _buildLegend(color: Colors.red, label: 'Negados', value: qtdClientsDenied)
           ],
         )
       ],
@@ -52,7 +79,8 @@ class _DonutChartState extends State<DonutChart> {
   }
 }
 
-Widget _buildLegend({required Color color, required String label}) {
+Widget _buildLegend({required Color color, required String label, required int value}) {
+  print(value);
   return Row(
     children: [
       Container(
@@ -62,6 +90,8 @@ Widget _buildLegend({required Color color, required String label}) {
       ),
       SizedBox(width: 5),
       Text(label),
+      Text(": "),
+      Text(value.toString())
     ],
   );
 }

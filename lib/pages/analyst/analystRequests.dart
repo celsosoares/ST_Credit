@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
-import 'package:st_credit/pages/clientInfo.dart';
-import 'package:st_credit/pages/homeAnalyst.dart';
+import 'package:st_credit/pages/analyst/clientInfo.dart';
+import 'package:st_credit/pages/analyst/homeAnalyst.dart';
 
 class AnalystRequests extends StatefulWidget {
   @override

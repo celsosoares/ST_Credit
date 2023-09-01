@@ -1,8 +1,8 @@
-import 'package:st_credit/pages/signinPage.dart';
+import 'package:st_credit/pages/auth/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'homeAnalyst.dart';
+import 'analyst/homeAnalyst.dart';
 
 class InitialPage extends StatefulWidget {
   @override

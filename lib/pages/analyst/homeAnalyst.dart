@@ -3,10 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:st_credit/chart/donutChart.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_service.dart';
-import 'package:st_credit/pages/allRequests.dart';
-import 'package:st_credit/pages/analystRequests.dart';
-import 'package:st_credit/pages/approvedRequests.dart';
-import 'package:st_credit/pages/deniedRequests.dart';
+import 'package:st_credit/pages/analyst/allRequests.dart';
+import 'package:st_credit/pages/analyst/analystRequests.dart';
+import 'package:st_credit/pages/analyst/approvedRequests.dart';
+import 'package:st_credit/pages/analyst/deniedRequests.dart';
+import 'package:st_credit/utils/utils.dart';
+
+import 'clientInfo.dart';
 
 class HomeAnalyst extends StatefulWidget {
   @override
@@ -16,13 +19,16 @@ class HomeAnalyst extends StatefulWidget {
 class _HomeAnalystState extends State<HomeAnalyst> {
   int _currentIndex = 0;
   int qtdClientesPendentes = 0;
+  List<Map<String, dynamic>> allAnalysis = [];
   AuthService authService = AuthService();
   final FirebaseService firebaseService = FirebaseService();
+
 
   @override
   void initState() {
     super.initState();
     qtdRequests();
+    getAnalysis();
   }
 
   Future<void> qtdRequests() async {
@@ -31,6 +37,14 @@ class _HomeAnalystState extends State<HomeAnalyst> {
       qtdClientesPendentes = qtdPendentes;
     });
   }
+
+  Future<void> getAnalysis() async {
+    List<Map<String, dynamic>> analysis = await firebaseService.getAllAnalysis();
+    setState(() {
+      allAnalysis = analysis;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +63,7 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
                           'Solicitações abertas',
@@ -63,7 +77,7 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           qtdClientesPendentes.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w800),
@@ -106,8 +120,9 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                   )),
               padding: const EdgeInsets.all(30),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Text("Histórico de análise"),
                     ],
@@ -126,15 +141,23 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => AllRequests()));
                           },
-                          child: Text(
-                            "Todos",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Todos",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
@@ -144,15 +167,23 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => ApprovedRequests()));
                           },
-                          child: Text(
-                            "Aprovados",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Aprovados",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
@@ -162,140 +193,39 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                                 MaterialPageRoute(
                                     builder: (context) => DeniedRequests()));
                           },
-                          child: Text(
-                            "Negados",
-                            style: TextStyle(
-                              color: Colors.black,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
+                            child: const Text(
+                              "Negados",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffE2E2E2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "CS",
-                                style: TextStyle(
-                                    color: Color(0xFF2A64D9),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text("Carlos Silva")
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ClientInfo()));
-                        },
-                        child: const Text(
-                          "Acessar",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
+                  const Center(
+                    child: Text('Análises Recentes',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16)),
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffE2E2E2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "LM",
-                                style: TextStyle(
-                                    color: Color(0xFF2A64D9),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Text("Lucas Morais")
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ClientInfo()));
-                        },
-                        child: const Text(
-                          "Acessar",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffE2E2E2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "JM",
-                                style: TextStyle(
-                                    color: Color(0xFF2A64D9),
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Text("João Manoel")
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ClientInfo()));
-                        },
-                        child: const Text(
-                          "Acessar",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ))
-          ],
+                  ...allAnalysis.reversed.take(3).map((data){
+                    return ClientListItem(
+                        data['nome'],
+                        data['sobrenome'],
+                        data['email']);
+                  })
+            ]))
+            )],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -317,4 +247,60 @@ class _HomeAnalystState extends State<HomeAnalyst> {
       ),
     );
   }
+  
+  Widget ClientListItem(String name, String surname, email){
+    return Padding(
+        padding: EdgeInsets.only(top: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: const Color(0xffE2E2E2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    Utils().getNameInitials(Utils().JoinNameAndSurname(name, surname)),
+                    style: const TextStyle(
+                        color: Color(0xFF2A64D9),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(Utils().JoinNameAndSurname(name, surname))
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+               Navigator.push(
+                   context,
+                   MaterialPageRoute(
+                       builder: (context) => ClientInfo(email: email)));
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: const Text(
+                "Acessar",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          )
+        ],
+      )
+    );
+  }
 }
+

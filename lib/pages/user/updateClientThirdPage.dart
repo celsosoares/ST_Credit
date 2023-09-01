@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:st_credit/pages/AnalysisDone.dart';
+import 'package:st_credit/pages/analyst/AnalysisDone.dart';
 import 'package:flutter/material.dart';
 
-import '../firebase/firebase_auth.dart';
-import '../firebase/firebase_service.dart';
+import '../../firebase/firebase_auth.dart';
+import '../../firebase/firebase_service.dart';
 import 'updateClientOnePage.dart';
 
 class UpdateClientThirdPage extends StatefulWidget {
