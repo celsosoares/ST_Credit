@@ -5,6 +5,7 @@ import 'package:st_credit/pages/userHistory.dart';
 import 'package:flutter/material.dart';
 import 'package:st_credit/pages/clientAnalysisOnePage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:st_credit/utils/utils.dart';
 
 import '../firebase/firebase_service.dart';
 import '../firebase/firebase_auth.dart';
@@ -107,7 +108,7 @@ class _HomeUserState extends State<HomeUser> {
                       Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          nomeUsuario,
+                          Utils().getName(nomeUsuario),
                           style: const TextStyle(
                               fontSize: 34,
                               color: Color(0xFFFFFFFF),
@@ -123,10 +124,10 @@ class _HomeUserState extends State<HomeUser> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "CM",
-                        style: TextStyle(
+                        Utils().getNameInitials(nomeUsuario),
+                        style: const TextStyle(
                             color: Color(0xFF2A64D9),
                             fontWeight: FontWeight.w600),
                       ),

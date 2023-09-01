@@ -21,7 +21,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildTextEmail() {
     return TextFormField(
-      controller: _emailController, // Vincule o controlador ao campo de e-mail.
+      controller: _emailController,
       autofocus: true,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
@@ -35,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buildTextPass() {
     return TextFormField(
       controller:
-          _passwordController, // Vincule o controlador ao campo de senha.
+          _passwordController,
       decoration: InputDecoration(
         hintText: "Senha",
         hintStyle: const TextStyle(
