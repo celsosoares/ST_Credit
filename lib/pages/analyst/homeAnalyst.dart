@@ -9,6 +9,8 @@ import 'package:st_credit/pages/analyst/approvedRequests.dart';
 import 'package:st_credit/pages/analyst/deniedRequests.dart';
 import 'package:st_credit/utils/utils.dart';
 
+import 'clientInfo.dart';
+
 class HomeAnalyst extends StatefulWidget {
   @override
   _HomeAnalystState createState() => _HomeAnalystState();
@@ -216,12 +218,12 @@ class _HomeAnalystState extends State<HomeAnalyst> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16)),
                   ),
-                  const SizedBox(height: 10),
-                  ClientListItem('asdasdas', 'olá'),
-                  const SizedBox(height: 10),
-                  ClientListItem(allAnalysis[1]['nome'], allAnalysis[1]['sobrenome']),
-                  const SizedBox(height: 10),
-                  ClientListItem(allAnalysis[2]['nome'], allAnalysis[2]['sobrenome']),
+                  ...allAnalysis.reversed.take(3).map((data){
+                    return ClientListItem(
+                        data['nome'],
+                        data['sobrenome'],
+                        data['email']);
+                  })
             ]))
             )],
         ),
@@ -246,45 +248,59 @@ class _HomeAnalystState extends State<HomeAnalyst> {
     );
   }
   
-  Widget ClientListItem(String name, String surname){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: const Color(0xffE2E2E2),
-                borderRadius: BorderRadius.circular(10),
+  Widget ClientListItem(String name, String surname, email){
+    return Padding(
+        padding: EdgeInsets.only(top: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: const Color(0xffE2E2E2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    Utils().getNameInitials(Utils().JoinNameAndSurname(name, surname)),
+                    style: const TextStyle(
+                        color: Color(0xFF2A64D9),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
-              child: Center(
-                child: Text(
-                  Utils().getNameInitials(Utils().JoinNameAndSurname(name, surname)),
-                  style: const TextStyle(
-                      color: Color(0xFF2A64D9),
-                      fontWeight: FontWeight.w600),
+              const SizedBox(width: 10),
+              Text(Utils().JoinNameAndSurname(name, surname))
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+               Navigator.push(
+                   context,
+                   MaterialPageRoute(
+                       builder: (context) => ClientInfo(email: email)));
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: const Text(
+                "Acessar",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            Text(Utils().JoinNameAndSurname(name, surname))
-          ],
-        ),
-        GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ClientInfo()));
-          },
-          child: const Text(
-            "Acessar",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        )
-      ],
+          )
+        ],
+      )
     );
   }
 }
+
