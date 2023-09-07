@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:st_credit/firebase/firebase_service.dart';
+import 'package:st_credit/pages/analyst/AnalysisDone.dart';
 import '../../firebase/firebase_auth.dart';
 import 'homeUser.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StatusPage extends StatefulWidget {
-
   final String email;
   final String nome;
   StatusPage({required this.email, required this.nome});
@@ -17,7 +18,45 @@ class _StatusState extends State<StatusPage> {
   int _currentIndex = 0;
   bool isAprovado = false;
   double len = 200;
+  String statusClient = '';
+  String emailClient = '';
+  String nomeClient = '';
   AuthService authService = AuthService();
+
+  final FirebaseService firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _performRequestsClient();
+  }
+
+  Future<void> _performRequestsClient() async {
+    try {
+      String email = widget.email;
+
+      Map<String, dynamic>? client =
+          await firebaseService.getClientByEmail(email);
+
+      if (client != null) {
+        setState(() {
+          emailClient = client['email'];
+          statusClient = client['status'];
+          nomeClient = client['nome'];
+        });
+      } else {
+        print('Cliente não encontrado.');
+      }
+    } catch (e) {
+      print('Erro ao obter cliente: $e');
+    }
+  }
+
+  void sendData(email) async {
+    Map<String, dynamic> userData = {'status': 'em analise'};
+
+    await firebaseService.updateClientByEmail(email, userData);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +87,6 @@ class _StatusState extends State<StatusPage> {
                   builder: (context) =>
                       HomeUser(email: widget.email, nome: widget.nome)),
             );
-            // Voltar à tela anterior
           },
         ),
       ),
@@ -65,17 +103,23 @@ class _StatusState extends State<StatusPage> {
             children: [
               SizedBox(height: len),
               Center(
-                child: isAprovado
+                child: statusClient == 'aprovado'
                     ? Image.asset(
                         'assets/images/telastatus.png',
                         width: 200,
                         height: 200,
                       )
-                    : Image.asset(
-                        'assets/images/telastatus2.png',
-                        width: 200,
-                        height: 200,
-                      ),
+                    : statusClient == 'em_analise'
+                        ? Image.asset(
+                            'assets/images/telastatus2.png',
+                            width: 200,
+                            height: 200,
+                          )
+                        : Image.asset(
+                            'assets/images/telastatus2.png',
+                            width: 200,
+                            height: 200,
+                          ),
               ),
               const SizedBox(height: 20),
               Text(
@@ -92,7 +136,7 @@ class _StatusState extends State<StatusPage> {
               const SizedBox(height: 4),
               Align(
                 alignment: Alignment.center,
-                child: isAprovado
+                child: statusClient == 'aprovado'
                     ? Text(
                         'APROVADO!',
                         style: GoogleFonts.urbanist(
@@ -103,37 +147,69 @@ class _StatusState extends State<StatusPage> {
                           ),
                         ),
                       )
-                    : Column(
-                        children: [
-                          Text(
-                            'NEGADO!',
-                            style: GoogleFonts.urbanist(
-                              textStyle: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
+                    : statusClient == 'em analise'
+                        ? Column(
+                            children: [
+                              Text(
+                                'EM ANÁLISE!',
+                                style: GoogleFonts.urbanist(
+                                  textStyle: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 15),
+                              Container(
+                                width: 300,
+                                child: const Text(
+                                  'Sua solicitação está em análise. Aguarde o resultado.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Text(
+                                'NEGADO!',
+                                style: GoogleFonts.urbanist(
+                                  textStyle: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 15),
+                              Container(
+                                width: 300,
+                                child: const Text(
+                                  'A análise leva em conta vários fatores e nesse momento não conseguimos liberar um cartão de crédito para você. Faça um novo pedido daqui há 3 dias.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(260, 55),
+                                ),
+                                autofocus: false,
+                                onPressed: () {
+                                  sendData(emailClient);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AnalysisDone(
+                                                email: emailClient,
+                                                nome: nomeClient,
+                                              )));
+                                },
+                                child: const Text("Solicitar Reanálise"),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 15),
-                          Container(
-                            width: 300,
-                            child: const Text(
-                              'A análise leva em conta vários fatores e nesse momento não conseguimos liberar um cartão de crédito para você. Faça um novo pedido daqui há 3 dias.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(260, 55),
-                            ),
-                            autofocus: false,
-                            onPressed: () {},
-                            child: const Text("Solicitar Reanálise"),
-                          ),
-                        ],
-                      ),
               ),
             ],
           ),
@@ -152,7 +228,7 @@ class _StatusState extends State<StatusPage> {
                   builder: (context) =>
                       HomeUser(email: widget.email, nome: widget.nome)),
             );
-          }else{
+          } else {
             authService.logoutAndNavigateToHome(context);
           }
         },
