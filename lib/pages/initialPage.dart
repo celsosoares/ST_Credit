@@ -2,8 +2,6 @@ import 'package:st_credit/pages/auth/signinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'analyst/homeAnalyst.dart';
-
 class InitialPage extends StatefulWidget {
   @override
   _InitialPageState createState() => _InitialPageState();
@@ -82,7 +80,7 @@ class _InitialPageState extends State<InitialPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HomeAnalyst()));
+                              builder: (context) => SignInPage(isUser: false, isAnalyst: true)));
                     },
                   ),
                 ),
@@ -105,7 +103,7 @@ class _InitialPageState extends State<InitialPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignInPage()));
+                              builder: (context) => SignInPage(isUser: true, isAnalyst: false)));
                     },
                       child: const Text('Sou um Cliente')
                   ),
