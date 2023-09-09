@@ -25,7 +25,7 @@ class _AllRequestsState extends State<AllRequests> {
           color: Colors.black,
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeAnalyst()),
+            MaterialPageRoute(builder: (context) => HomeAnalyst(isUser: false,isAnalyst: true)),
           ),
         ),
         backgroundColor: Colors.white,

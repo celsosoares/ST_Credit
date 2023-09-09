@@ -62,7 +62,7 @@ class _AnalysisDone extends State<AnalysisDoneAnalist> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeAnalyst()));
+                                builder: (context) => HomeAnalyst(isUser: false, isAnalyst: true)));
                       },
                       child: const Text('Voltar para tela Home')),
                 ),

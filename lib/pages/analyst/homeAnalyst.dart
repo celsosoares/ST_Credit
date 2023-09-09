@@ -12,6 +12,9 @@ import 'package:st_credit/utils/utils.dart';
 import 'clientInfo.dart';
 
 class HomeAnalyst extends StatefulWidget {
+  final bool isUser;
+  final bool isAnalyst;
+  HomeAnalyst({required this.isUser, required this.isAnalyst});
   @override
   _HomeAnalystState createState() => _HomeAnalystState();
 }
@@ -48,6 +51,8 @@ class _HomeAnalystState extends State<HomeAnalyst> {
 
   @override
   Widget build(BuildContext context) {
+    bool isUser = widget.isUser;
+    bool isAnalyst = widget.isAnalyst;
     return Scaffold(
       body: Container(
         color: const Color(0xFF2A64D9),
@@ -234,7 +239,16 @@ class _HomeAnalystState extends State<HomeAnalyst> {
           setState(() {
             _currentIndex = index;
           });
-          authService.logoutAndNavigateToHome(context);
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeAnalyst(isUser: isUser, isAnalyst: isAnalyst,),
+            ));
+          } else {
+            authService.logoutAndNavigateToHome(context, isUser, isAnalyst);
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,
