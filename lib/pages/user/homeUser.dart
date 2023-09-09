@@ -327,7 +327,7 @@ class _HomeUserState extends State<HomeUser> {
                       HomeUser(email: emailUsuario, nome: nomeUsuario)),
             );
           } else {
-            authService.logoutAndNavigateToHome(context);
+            authService.logoutAndNavigateToHome(context, true, false);
           }
         },
         showSelectedLabels: false,

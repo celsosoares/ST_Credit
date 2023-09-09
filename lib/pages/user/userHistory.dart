@@ -124,7 +124,7 @@ class _StatusState extends State<UserHistory> {
                       HomeUser(email: widget.email, nome: widget.nome)),
             );
           }else{
-            authService.logoutAndNavigateToHome(context);
+            authService.logoutAndNavigateToHome(context, true, false);
           }
         },
         showSelectedLabels: false,

@@ -90,7 +90,7 @@ class _FAQPageState extends State<FAQPage> {
                       HomeUser(email: emailUsuario, nome: nomeUsuario)),
             );
           } else {
-            authService.logoutAndNavigateToHome(context);
+            authService.logoutAndNavigateToHome(context,true, false);
           }
         },
         showSelectedLabels: false,
