@@ -33,14 +33,23 @@ class AuthService {
   }
 
   // Deslogar
-  Future<void> logoutAndNavigateToHome(BuildContext context) async {
+  Future<void> logoutAndNavigateToHome(BuildContext context, bool isUser, bool isAnalyst) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()), // Tela inicial do seu aplicativo
-            (route) => false, // Remove todas as rotas anteriores da pilha
-      );
+      if(isUser){
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => SignInPage(isUser: true,isAnalyst: false)), // Tela inicial do seu aplicativo
+              (route) => false, // Remove todas as rotas anteriores da pilha
+        );
+      }else{
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => SignInPage(isUser: false,isAnalyst: true)), // Tela inicial do seu aplicativo
+              (route) => false, // Remove todas as rotas anteriores da pilha
+        );
+      }
+
     } catch (e) {
       print('Erro ao realizar logout: $e');
     }
