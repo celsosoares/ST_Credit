@@ -9,6 +9,9 @@ import '../../firebase/firebase_auth.dart';
 import '../../firebase/firebase_service.dart';
 
 class SignUpPage extends StatefulWidget {
+  final bool isUser;
+  final bool isAnalyst;
+  SignUpPage({required this.isUser, required this.isAnalyst});
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -160,6 +163,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    bool isUser = widget.isUser;
+    bool isAnalyst = widget.isAnalyst;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
@@ -292,7 +297,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => SignInPage()));
+                                          builder: (context) => SignInPage(isUser: isUser,isAnalyst: isAnalyst)));
                                 },
                             ),
                           ],

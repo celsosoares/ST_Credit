@@ -1,3 +1,4 @@
+import 'package:st_credit/pages/analyst/homeAnalyst.dart';
 import 'package:st_credit/pages/user/homeUser.dart';
 import 'package:st_credit/pages/initialPage.dart';
 import 'package:st_credit/pages/auth/signupPage.dart';
@@ -8,6 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:st_credit/firebase/firebase_auth.dart';
 
 class SignInPage extends StatefulWidget {
+  final bool isUser;
+  final bool isAnalyst;
+  SignInPage({required this.isUser, required this.isAnalyst});
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -16,9 +20,7 @@ class _SignInPageState extends State<SignInPage> {
   bool _passVis = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   AuthService authService = AuthService();
-
   Widget _buildTextEmail() {
     return TextFormField(
       controller: _emailController,
@@ -59,6 +61,8 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isUser = widget.isUser;
+    bool isAnalyst = widget.isAnalyst;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
@@ -139,13 +143,23 @@ class _SignInPageState extends State<SignInPage> {
                         email, password);
 
                     if (user != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              HomeUser(email: email, nome: "Nome do Usuário"),
-                        ),
-                      );
+                      if(isUser){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                HomeUser(email: email, nome: "Nome do Usuário"),
+                          ),
+                        );
+                      }else{
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                HomeAnalyst(isUser: isUser, isAnalyst: isAnalyst),
+                          ),
+                        );
+                      }
                     } else {
                       showDialog(
                         context: context,
@@ -191,7 +205,7 @@ class _SignInPageState extends State<SignInPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpPage()));
+                                  builder: (context) => SignUpPage(isUser: isUser, isAnalyst: isAnalyst)));
                         },
                     ),
                   ],
